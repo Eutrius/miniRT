@@ -1,14 +1,12 @@
 #include "../include/minirt.h"
-#include <stdlib.h>
 
-t_vec v0()
+t_vec vector(float x, float y, float z)
 {
 	t_vec vec;
 
-	vec.x = 0;
-	vec.y = 0;
-	vec.z = 0;
-	vec.w = 1;
+	vec.x = x;
+	vec.y = y;
+	vec.z = z;
 	return (vec);
 }
 

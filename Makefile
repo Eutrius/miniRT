@@ -10,7 +10,7 @@ MLX			= $(MLX_DIR)/libmlx.a
 LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 RM 			= rm -rf
 
-SRC = main.c init.c math.c hit.c
+SRC = main.c init.c math.c hit.c validate.c
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
@@ -47,7 +47,6 @@ fclean: clean
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/builtin
 
 re: fclean all
 

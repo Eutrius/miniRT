@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include "mlx.h"
 #include "libft.h"
+#include <fcntl.h>
 
 typedef struct	s_vec
 {
 	float	x;
 	float	y;
 	float	z;
-	float	w;
 }	t_vec;
 
 typedef struct s_ambient
@@ -79,11 +79,19 @@ typedef struct	s_mlximg {
 }	t_img;
 
 
-
+/*rendering*/
 void	*render(t_scene scene, int w, int h, void *mlx);
 
+/*RAYTRACING*/
 char	hitsphere(t_ray ray, t_hit *hit, void *self);
+char	hitcylinder(t_ray ray, t_hit *hit, void *self);
+char	hitcone(t_ray ray, t_hit *hit, void *self);
+char	hitplane(t_ray ray, t_hit *hit, void *self);
 
+/*unmarshal*/
+char	*readfile(int argc, char **argv);
+int		unmarshal(char *str, t_scene *scene);
+int		unmarshalobject(char *str, t_scene *scene);
 
 //utils
 t_vec vecsum(t_vec a, t_vec b);
