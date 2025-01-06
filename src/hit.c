@@ -28,20 +28,30 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 
 char	hitplane(t_ray ray, t_hit *hit, void *self)
 {
+	t_plane	*plane;
+	float denom;
 
-	return (0);
+	plane = ((t_obj *)self)->self;
+	denom = dot(plane->normal, ray.dir);
+	if (fabs(denom) > 0.000001f)
+	{
+    	hit->t = dot(vecsub(plane->coord, ray.start), plane->normal) / denom;
+    if (hit->t >= 0)
+			return 1;
+	}
+	return 0;
 }
-
-
-char	hitcone(t_ray ray, t_hit *hit, void *self)
-{
-
-	return (0);
-}
-
-
-char	hitcylinder(t_ray ray, t_hit *hit, void *self)
-{
-
-	return (0);
-}
+/**/
+/**/
+/*char	hitcone(t_ray ray, t_hit *hit, void *self)*/
+/*{*/
+/**/
+/*	return (0);*/
+/*}*/
+/**/
+/**/
+/*char	hitcylinder(t_ray ray, t_hit *hit, void *self)*/
+/*{*/
+/**/
+/*	return (0);*/
+/*}*/

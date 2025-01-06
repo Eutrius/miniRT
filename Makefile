@@ -10,7 +10,7 @@ MLX			= $(MLX_DIR)/libmlx.a
 LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 RM 			= rm -rf
 
-SRC = main.c init.c math.c hit.c validate.c
+SRC = main.c constructor.c math.c hit.c validate.c unmarsh_utils.c unmarsh.c unmarsh_object.c memory_man.c debug.c
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 all: $(NAME)

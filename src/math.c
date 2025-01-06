@@ -7,7 +7,6 @@ t_vec vecsum(t_vec a, t_vec b)
 	r.x = a.x + b.x;
 	r.y = a.y + b.y;
 	r.z = a.z + b.z;
-	r.w = a.w + b.w;
 	return (r);
 }
 
@@ -23,6 +22,5 @@ t_vec vecsub(t_vec a, t_vec b)
 	r.x = a.x - b.x;
 	r.y = a.y - b.y;
 	r.z = a.z - b.z;
-	r.w = a.w - b.w;
 	return (r);
 }

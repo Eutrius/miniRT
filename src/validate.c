@@ -38,4 +38,8 @@ char	*readfile(int argc, char **argv)
 	return (filetostr(fd));
 }
 
-
+char	is_float(char *str)
+{
+	(void)str;
+	return (1);
+}

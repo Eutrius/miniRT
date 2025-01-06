@@ -1,7 +1,4 @@
 #include "../include/minirt.h"
-#include <math.h>
-#include <stdio.h>
-
 
 static	void init(int argc, char **argv, t_scene *scene)
 {
@@ -11,10 +8,10 @@ static	void init(int argc, char **argv, t_scene *scene)
 	ft_memset(scene, 0, sizeof(t_scene));
 	filestr = readfile(argc, argv);
 	err = unmarshal(filestr, scene);
+	print_scene(*scene);
 	free(filestr);
 	if (err)
 	{
-
 		exit(1);
 	}
 }
@@ -28,7 +25,6 @@ int main(int argc, char **argv)
 	int		w;
 
 	init(argc, argv, &scene);
-	exit(0);
 	mlx = mlx_init();
 	mlx_get_screen_size(mlx, &w, &h);
 	mlx_win = mlx_new_window(mlx, w, h, "MiniRT");

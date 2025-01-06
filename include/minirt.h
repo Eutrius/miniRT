@@ -6,6 +6,7 @@
 #include "mlx.h"
 #include "libft.h"
 #include <fcntl.h>
+#include <math.h>
 
 typedef struct	s_vec
 {
@@ -60,6 +61,12 @@ typedef struct s_sphere
 	float	radius;
 }	t_sphere;
 
+typedef struct s_plane
+{
+	t_vec coord;
+	t_vec normal;
+}	t_plane;
+
 typedef struct s_scene
 {
 	t_obj	*objs;
@@ -92,12 +99,22 @@ char	hitplane(t_ray ray, t_hit *hit, void *self);
 char	*readfile(int argc, char **argv);
 int		unmarshal(char *str, t_scene *scene);
 int		unmarshalobject(char *str, t_scene *scene);
+int		getcolor(char *str, int *err);
+t_vec getcoords(char *str, int *err);
 
 //utils
+char	is_float(char *str);
 t_vec vecsum(t_vec a, t_vec b);
 t_vec v0();
 t_ray ray(t_vec start, t_vec dir);
 t_vec vecsub(t_vec a, t_vec b);
 float	dot(t_vec a, t_vec b);
+t_vec vector(float x, float y, float z);
+
+//memory
+void	free_matrix(char **mat);
+
+//debug
+void print_scene(t_scene scene);
 
 #endif
