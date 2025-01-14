@@ -1,5 +1,6 @@
 
 #include "../include/minirt.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static int	unmarshalsphere(char *str, t_scene *scene)
@@ -19,6 +20,7 @@ static int	unmarshalsphere(char *str, t_scene *scene)
 	scene->objs[scene->objc].hit = hitsphere; 
 	scene->objs[scene->objc].color = getcolor(args[3], &err); 
 	scene->objc++;
+	free_matrix(args);
 	return (err);
 }
 static int	unmarshalplane(char *str, t_scene *scene)
@@ -39,7 +41,9 @@ static int	unmarshalplane(char *str, t_scene *scene)
 	scene->objs[scene->objc].self = self; 
 	scene->objs[scene->objc].hit = hitplane; 
 	scene->objs[scene->objc].color = getcolor(args[3], &err); 
+	printf("plane color:%d\n", getcolor(args[3], &err));
 	scene->objc++;
+	free_matrix(args);
 	return (err);
 }
 /*static int	unmarshalcylinder(char *str, t_scene *scene)*/

@@ -38,6 +38,7 @@ typedef struct s_light
 
 typedef struct s_hit
 {
+	t_vec	normal;
 	int		color;
 	float	t;      //parameter for lenght of ray when it hit
 }	t_hit;
@@ -87,6 +88,8 @@ typedef struct	s_mlximg {
 
 
 /*rendering*/
+
+void	pixel(t_img *data, int x, int y, int color);
 void	*render(t_scene scene, int w, int h, void *mlx);
 
 /*RAYTRACING*/
@@ -105,16 +108,18 @@ t_vec getcoords(char *str, int *err);
 //utils
 char	is_float(char *str);
 t_vec vecsum(t_vec a, t_vec b);
-t_vec v0();
 t_ray ray(t_vec start, t_vec dir);
 t_vec vecsub(t_vec a, t_vec b);
 float	dot(t_vec a, t_vec b);
 t_vec vector(float x, float y, float z);
+t_vec scalarprod(t_vec a, float b);
+t_vec normalize(t_vec v);
 
 //memory
 void	free_matrix(char **mat);
 
 //debug
 void print_scene(t_scene scene);
+void print_vec(t_vec vec);
 
 #endif

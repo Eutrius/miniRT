@@ -12,7 +12,6 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	if (present != 0)
 		return (write(2, "Error: Too many cameras\n", 25));
 	args = ft_split(str, ' ');
-	printf("camera:%s\n%s\n", str, args[0]);
 	scene->cam.pos = getcoords(args[1], &err);
 	scene->cam.ori = getcoords(args[2], &err);
 	if (scene->cam.ori.x < -1.0 || scene->cam.ori.x > 1.0 
@@ -24,7 +23,6 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	scene->cam.fov = ft_atof(args[3]);
 	if (scene->cam.fov < 0.0 || scene->cam.fov > 180.0)
 		err = (write(2, "Error: Wrong FOV, ([0.0,180.0])\n", 33));
-	scene->light.color = getcolor(args[3], &err);
 	free_matrix(args);
 	return (err);
 }
@@ -84,11 +82,9 @@ int	unmarshal(char *file, t_scene *scene)
 	while (spl[i]) 
 		i++;
 	scene->objs = malloc(sizeof(t_obj) * (i - 2));
-	printf(" i= %i\n", i);
 	while (--i >= 0 && err == 0)
 	{
 		str = spl[i];
-		printf("err = %i i = %i %s\n",err,  i, str);
 		if (ft_strchr(str, 'A'))
 			err = unmarshalambient(str, scene);
 		else if (ft_strchr(str, 'L'))
