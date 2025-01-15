@@ -73,15 +73,12 @@ void	lightman(t_scene scene, t_ray r, t_hit *hit)
 	while (++i < scene.objc)
 	{
 		if (scene.objs[i].hit(lightray, &ph, &scene.objs[i]))
-		{
-			if (!is_hit_closer_than_light(lightray, ph, scene.light))
-				continue ;
-			return ;
-		}
+			if (is_hit_closer_than_light(lightray, ph, scene.light))
+				return ;
 	}
 	intensity = dot(hit->normal, lightray.dir);
 	if (intensity < 0)
-		intensity = 0;
+		return ;
 	hit->color = coloradd(hit->color, colormult(scene.light.color, scene.light.ratio * intensity));
 }
 

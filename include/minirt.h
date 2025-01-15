@@ -40,7 +40,7 @@ typedef struct s_hit
 {
 	t_vec	normal;
 	int		color;
-	float	t;      //parameter for lenght of ray when it hit
+	float	t;
 }	t_hit;
 
 typedef struct s_ray
@@ -67,6 +67,17 @@ typedef struct s_plane
 	t_vec coord;
 	t_vec normal;
 }	t_plane;
+
+
+typedef struct s_cylinder
+{
+	t_vec 	center;
+	float	radius;
+	float	maxm;
+	t_vec	axis;
+}	t_cylinder;
+
+
 
 typedef struct s_scene
 {

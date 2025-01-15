@@ -46,14 +46,34 @@ static int	unmarshalplane(char *str, t_scene *scene)
 	free_matrix(args);
 	return (err);
 }
-/*static int	unmarshalcylinder(char *str, t_scene *scene)*/
-/*{*/
-/*	return (0);*/
-/*}*/
-/*static int	unmarshalcone(char *str, t_scene *scene)*/
-/*{*/
-/*	return (0);*/
-/*}*/
+static int	unmarshalcylinder(char *str, t_scene *scene)
+{
+	char		**args;
+	t_cylinder	*self;
+	int			err;
+
+	err = 0;
+	args = ft_split(str, ' ');
+	self = ft_calloc(sizeof(t_cylinder), 1);
+	self->center = getcoords(args[1], &err);
+	self->axis = getcoords(args[2], &err);
+	if (self->axis.x < -1.0 || self->axis.x > 1.0
+		|| self->axis.y < -1.0 || self->axis.y > 1.0
+		|| self->axis.z < -1.0 || self->axis.z > 1.0)
+		err = write(2, "Error: Normal is not normal :)\n", 32);
+	self->radius = ft_atof(args[3]) / 2;
+	self->maxm = ft_atof(args[4]);
+	if (self->radius < 0.0)
+		err = write(2, "Error: sphere diameter cannot be negative\n", 43);
+	self->radius = ft_atof(args[3]) / 2;
+	scene->objs[scene->objc].self = self; 
+	scene->objs[scene->objc].hit = hitcylinder; 
+	scene->objs[scene->objc].color = getcolor(args[5], &err); 
+	scene->objc++;
+	free_matrix(args);
+	printf("asdasdasd\n");
+	return (err);
+}
 
 int	unmarshalobject(char *str, t_scene *scene)
 {
@@ -64,8 +84,8 @@ int	unmarshalobject(char *str, t_scene *scene)
 		err = unmarshalsphere(str, scene);
 	if (!ft_strncmp(str, "pl ", 3))
 		err = unmarshalplane(str, scene);
-	/*if (!ft_strncmp(str, "cy ", 3))*/
-	/*	unmarshalcylinder(str, scene);*/
+	if (!ft_strncmp(str, "cy ", 3))
+		err = unmarshalcylinder(str, scene);
 	/*if (!ft_strncmp(str, "cn ", 3))*/
 	/*	unmarshalcone(str, scene);*/
 	return (err);
