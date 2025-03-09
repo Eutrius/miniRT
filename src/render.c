@@ -39,7 +39,7 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 			pp.y = pp.y + camh - (y * deltay) + (deltay / 2);
 			finalhit.color = 0;
 			finalhit.t = 0xffffff;
-			r = ray(scene.cam.pos, vecsub(pp, scene.cam.pos));
+			r = ray(scene.cam.pos, normalize(vecsub(pp, scene.cam.pos)));
 			while (i < scene.objc)
 			{
 				if (scene.objs[i].hit(r, &hit, &scene.objs[i]))
