@@ -130,7 +130,16 @@ t_vec normalize(t_vec v);
 void	free_matrix(char **mat);
 
 //debug
-void print_scene(t_scene scene);
-void print_vec(t_vec vec);
+void print_vec(const t_vec *vec);
+void print_ambient(const t_amb *amb);
+void print_camera(const t_cam *cam);
+void print_light(const t_light *light);
+void print_hit(const t_hit *hit);
+void print_ray(const t_ray *ray);
+void print_object(const t_obj *obj);
+void print_sphere(const t_sphere *sphere);
+void print_plane(const t_plane *plane);
+void print_cylinder(const t_cylinder *cylinder);
+void print_scene(const t_scene *scene);
 
 #endif
