@@ -75,7 +75,7 @@ static int	unmarshalcylinder(char *str, t_scene *scene)
 			|| self->axis.z < -1.0 || self->axis.z > 1.0)
 			err = write(2, "Error: Normal is not normal :)\n", 32);
 		self->radius = ft_atof(args[3]) / 2;
-		self->maxm = ft_atof(args[4]);
+		self->height = ft_atof(args[4]);
 		if (self->radius < 0.0)
 			err = write(2, "Error: cylinder diameter cannot be negative\n", 44);
 		self->radius = ft_atof(args[3]) / 2;

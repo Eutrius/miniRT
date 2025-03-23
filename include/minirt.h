@@ -71,7 +71,7 @@ typedef struct s_cylinder
 {
 	t_vec	center;
 	float	radius;
-	float	maxm;
+	float	height;
 	t_vec	axis;
 }			t_cylinder;
 
