@@ -1,6 +1,6 @@
 #include "../include/minirt.h"
 
-static	void init(int argc, char **argv, t_scene *scene)
+static void	init(int argc, char **argv, t_scene *scene)
 {
 	char	*filestr;
 	int		err;
@@ -13,22 +13,24 @@ static	void init(int argc, char **argv, t_scene *scene)
 		exit(1);
 }
 
-int main(int argc, char **argv)
+static int	render_scene(void *arg)
 {
-	t_scene	scene;
-	void	*mlx;
-	void	*mlx_win;
-	int		h;
-	int		w;
+	t_data	*data;
 
-	init(argc, argv, &scene);
-	mlx = mlx_init();
-	mlx_get_screen_size(mlx, &w, &h);
-	mlx_win = mlx_new_window(mlx, w, h, "MiniRT");
-
-	mlx_put_image_to_window(mlx, mlx_win, render(scene, w, h, mlx), 0, 0);
-	mlx_loop(mlx);
+	data = arg;
+	mlx_put_image_to_window(data->mlx, data->mlx_win, render(data->scene,
+			data->w, data->h, data->mlx), 0, 0);
+	return (0);
 }
 
+int	main(int argc, char **argv)
+{
+	t_data	data;
 
-
+	init(argc, argv, &data.scene);
+	data.mlx = mlx_init();
+	mlx_get_screen_size(data.mlx, &data.w, &data.h);
+	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
+	mlx_loop_hook(data.mlx, render_scene, &data);
+	mlx_loop(data.mlx);
+}
