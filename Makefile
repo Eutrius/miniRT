@@ -14,6 +14,7 @@ MLX			= $(MLX_DIR)/libmlx.a
 LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 SRC = src/main.c \
+	  src/hooks.c \
 	  src/constructor.c \
 	  src/math.c \
 	  src/hit/hitplane.c \

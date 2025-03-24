@@ -36,8 +36,8 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	dot_dir_axis = dot(ray.dir, cyl->axis);
 	dot_oc_axis = dot(oc, cyl->axis);
 	// These are the projections of the ray direction and oc onto the cylinder axis
-	dir_proj = scalarprod(cyl->axis, dot_dir_axis);
-	oc_proj = scalarprod(cyl->axis, dot_oc_axis);
+	dir_proj = scalar(cyl->axis, dot_dir_axis);
+	oc_proj = scalar(cyl->axis, dot_oc_axis);
 	// Components perpendicular to the axis
 	dir = vecsub(ray.dir, dir_proj);
 	oc = vecsub(oc, oc_proj);
@@ -67,7 +67,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	// Use t1 if it's valid, otherwise use t2
 	t_min = (t1 > 0.00001f) ? t1 : t2;
 	// Check if intersection is within cylinder height
-	hit_point = vecsum(ray.start, scalarprod(ray.dir, t_min));
+	hit_point = vecsum(ray.start, scalar(ray.dir, t_min));
 	cp = vecsub(hit_point, cyl->center);
 	m = dot(cp, cyl->axis);
 	if (m < -cyl->height / 2 || m > cyl->height / 2)
@@ -77,7 +77,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 			t_min = t2;
 		else
 			return (0);
-		hit_point = vecsum(ray.start, scalarprod(ray.dir, t_min));
+		hit_point = vecsum(ray.start, scalar(ray.dir, t_min));
 		cp = vecsub(hit_point, cyl->center);
 		m = dot(cp, cyl->axis);
 		if (m < -cyl->height / 2 || m > cyl->height / 2)
@@ -86,7 +86,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	// Valid intersection found
 	hit->t = t_min;
 	// Calculate normal at hit point
-	axis_point = vecsum(cyl->center, scalarprod(cyl->axis, m));
+	axis_point = vecsum(cyl->center, scalar(cyl->axis, m));
 	hit->normal = normalize(vecsub(hit_point, axis_point));
 	hit->color = ((t_obj *)self)->color;
 	return (1);

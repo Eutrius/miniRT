@@ -8,6 +8,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+# define EPSILON 0.00001f
+
 typedef struct s_vec
 {
 	float	x;
@@ -47,6 +49,16 @@ typedef struct s_ray
 	t_vec	start;
 	t_vec	dir;
 }			t_ray;
+
+typedef struct s_quadratic
+{
+	float	a;
+	float	b;
+	float	c;
+	float	denom;
+	float	t1;
+	float	t2;
+}			t_quadratic;
 
 typedef struct s_object
 {
@@ -128,7 +140,7 @@ t_ray		ray(t_vec start, t_vec dir);
 t_vec		vecsub(t_vec a, t_vec b);
 float		dot(t_vec a, t_vec b);
 t_vec		vector(float x, float y, float z);
-t_vec		scalarprod(t_vec a, float b);
+t_vec		scalar(t_vec a, float b);
 t_vec		normalize(t_vec v);
 
 // memory
@@ -147,4 +159,5 @@ void		print_plane(const t_plane *plane);
 void		print_cylinder(const t_cylinder *cylinder);
 void		print_scene(const t_scene *scene);
 
+void		hooks(t_data *data);
 #endif
