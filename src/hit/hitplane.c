@@ -20,17 +20,17 @@ char	hitplane(t_ray ray, t_hit *hit, void *self)
 
 	plane = ((t_obj *)self)->self;
 	denom = dot(plane->normal, ray.dir);
-	if (fabs(denom) > 0.00001f)
+	if (fabs(denom) > EPSILON)
 	{
 		hit->t = dot(vecsub(plane->coord, ray.start), plane->normal) / denom;
-		if (hit->t < 0.00001f)
+		if (hit->t < EPSILON)
 			return (0);
 		if (denom < 0)
 			hit->normal = plane->normal;
 		else
-			hit->normal = scalarprod(plane->normal, -1);
+			hit->normal = scalar(plane->normal, -1);
 		hit->color = ((t_obj *)self)->color;
-		if (hit->t >= 0.00001f)
+		if (hit->t >= EPSILON)
 			return (1);
 	}
 	return (0);

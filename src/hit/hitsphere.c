@@ -16,26 +16,25 @@
 char	hitsphere(t_ray ray, t_hit *hit, void *self)
 {
 	t_sphere	*sphere;
+	t_quadratic	quad;
 	t_vec		oc;
-	float		a;
-	float		b;
-	float		c;
 	t_vec		hit_point;
 
 	sphere = ((t_obj *)self)->self;
 	oc = vecsub(sphere->center, ray.start);
-	a = dot(ray.dir, ray.dir);
-	b = 2.0f * dot(ray.dir, oc);
-	c = dot(oc, oc) - (sphere->radius * sphere->radius);
-	if (b * b - 4 * (a * c) >= 0.00001f)
+	quad.a = dot(ray.dir, ray.dir);
+	quad.b = 2.0f * dot(ray.dir, oc);
+	quad.c = dot(oc, oc) - (sphere->radius * sphere->radius);
+	solve_quadratic(&quad);
+	if (quad.discriminant >= EPSILON)
 	{
-		hit->t = (b - sqrt(b * b - 4 * (a * c))) / (2 * a);
-		c = (b + sqrt(b * b - 4 * (a * c))) / (2 * a);
-		if (hit->t > c)
-			hit->t = c;
-		if (hit->t < 0.00001f)
+		if (quad.t1 > quad.t2)
+			hit->t = quad.t2;
+		else
+			hit->t = quad.t1;
+		if (hit->t < EPSILON)
 			return (0);
-		hit_point = vecsum(ray.start, scalarprod(ray.dir, hit->t));
+		hit_point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = normalize(vecsub(hit_point, sphere->center));
 		hit->color = ((t_obj *)self)->color;
 		return (1);

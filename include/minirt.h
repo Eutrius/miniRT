@@ -55,7 +55,7 @@ typedef struct s_quadratic
 	float	a;
 	float	b;
 	float	c;
-	float	denom;
+	float	discriminant;
 	float	t1;
 	float	t2;
 }			t_quadratic;
@@ -135,13 +135,15 @@ t_vec		getcoords(char *str, int *err);
 
 // utils
 char		is_float(char *str);
-t_vec		vecsum(t_vec a, t_vec b);
 t_ray		ray(t_vec start, t_vec dir);
+t_vec		vector(float x, float y, float z);
+t_vec		vecsum(t_vec a, t_vec b);
+float		veclen(t_vec a);
 t_vec		vecsub(t_vec a, t_vec b);
 float		dot(t_vec a, t_vec b);
-t_vec		vector(float x, float y, float z);
 t_vec		scalar(t_vec a, float b);
 t_vec		normalize(t_vec v);
+void		solve_quadratic(t_quadratic *quad);
 
 // memory
 void		free_matrix(char **mat);
