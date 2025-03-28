@@ -1,17 +1,5 @@
 #include "../include/minirt.h"
 
-t_vec	normalize(t_vec v)
-{
-	float	length;
-	t_vec	r;
-
-	length = veclen(v);
-	r.x = v.x / length;
-	r.y = v.y / length;
-	r.z = v.z / length;
-	return (r);
-}
-
 t_vec	vecsum(t_vec a, t_vec b)
 {
 	t_vec	r;

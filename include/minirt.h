@@ -142,8 +142,9 @@ float		veclen(t_vec a);
 t_vec		vecsub(t_vec a, t_vec b);
 float		dot(t_vec a, t_vec b);
 t_vec		scalar(t_vec a, float b);
+t_vec		cross(t_vec a, t_vec b);
 t_vec		normalize(t_vec v);
-void		solve_quadratic(t_quadratic *quad);
+void		quadratic(t_quadratic *quad);
 
 // memory
 void		free_matrix(char **mat);

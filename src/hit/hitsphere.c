@@ -21,11 +21,11 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 	t_vec		hit_point;
 
 	sphere = ((t_obj *)self)->self;
-	oc = vecsub(sphere->center, ray.start);
+	oc = vecsub(ray.start, sphere->center);
 	quad.a = dot(ray.dir, ray.dir);
 	quad.b = 2.0f * dot(ray.dir, oc);
 	quad.c = dot(oc, oc) - (sphere->radius * sphere->radius);
-	solve_quadratic(&quad);
+	quadratic(&quad);
 	if (quad.discriminant >= EPSILON)
 	{
 		if (quad.t1 > quad.t2)

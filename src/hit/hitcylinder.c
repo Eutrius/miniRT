@@ -12,132 +12,99 @@
  *
  * Returns: 1 if an intersection is found, 0 otherwise.
  */
+
+static int	hit_cap(t_ray ray, t_hit *hit, t_cylinder *cyl, t_vec (*f)(t_vec,
+					t_vec));
+static void	calculat_coeff(t_ray ray, t_cylinder *cyl, t_quadratic *quad);
+static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t);
+
 char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 {
 	t_cylinder	*cyl;
-	t_vec		cap_hit_point;
-	float		temp;
-	float		best_t;
-	t_vec		best_normal;
-	t_vec		top_center;
-	float		top_denom;
-	t_vec		bot_center;
-	float		bot_denom;
-	float		m;
+	t_quadratic	quad;
 
-	t_vec hit_point, cp, axis_point;
-	float dot_dir_axis, dot_oc_axis;
-	t_vec dir_proj, oc_proj;
-	t_vec oc, dir;
-	float a, b, c, discriminant;
-	float t1, t2, cap_t;
 	cyl = ((t_obj *)self)->self;
-	// Vector from cylinder center to ray origin
-	oc = vecsub(ray.start, cyl->center);
-	// Project ray direction and origin vector onto cylinder axis
-	dot_dir_axis = dot(ray.dir, cyl->axis);
-	dot_oc_axis = dot(oc, cyl->axis);
-	dir_proj = scalar(cyl->axis, dot_dir_axis);
-	oc_proj = scalar(cyl->axis, dot_oc_axis);
-	// Calculate perpendicular components
-	dir = vecsub(ray.dir, dir_proj);
-	oc = vecsub(oc, oc_proj);
-	// Quadratic equation coefficients
-	a = dot(dir, dir);
-	if (a < EPSILON)
+	calculat_coeff(ray, cyl, &quad);
+	if (quad.discriminant < EPSILON)
 		return (0);
-	b = 2.0f * dot(oc, dir);
-	c = dot(oc, oc) - (cyl->radius * cyl->radius);
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < EPSILON)
-		return (0);
-	// Calculate intersection points
-	t1 = (-b - sqrt(discriminant)) / (2 * a);
-	t2 = (-b + sqrt(discriminant)) / (2 * a);
-	// Ensure t1 is the smaller intersection
-	if (t1 > t2)
+	hit->t = INFINITY;
+	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit,
+				quad.t2)) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit,
+			cyl, vecsub))
 	{
-		temp = t1;
-		t1 = t2;
-		t2 = temp;
-	}
-	// Check both cylinder body and caps
-	best_t = INFINITY;
-	int hit_type = 0; // 0: no hit, 1: body, 2: top cap, 3: bottom cap
-	// Cylinder body intersection
-	if (t1 > EPSILON)
-	{
-		hit_point = vecsum(ray.start, scalar(ray.dir, t1));
-		cp = vecsub(hit_point, cyl->center);
-		m = dot(cp, cyl->axis);
-		if (m >= -cyl->height / 2 && m <= cyl->height / 2)
-		{
-			best_t = t1;
-			axis_point = vecsum(cyl->center, scalar(cyl->axis, m));
-			best_normal = normalize(vecsub(hit_point, axis_point));
-			hit_type = 1;
-		}
-	}
-	if (best_t == INFINITY && t2 > EPSILON)
-	{
-		hit_point = vecsum(ray.start, scalar(ray.dir, t2));
-		cp = vecsub(hit_point, cyl->center);
-		m = dot(cp, cyl->axis);
-		if (m >= -cyl->height / 2 && m <= cyl->height / 2)
-		{
-			best_t = t2;
-			axis_point = vecsum(cyl->center, scalar(cyl->axis, m));
-			best_normal = normalize(vecsub(hit_point, axis_point));
-			hit_type = 1;
-		}
-	}
-	// Top cap intersection
-	top_center = vecsum(cyl->center, scalar(cyl->axis, cyl->height / 2));
-	top_denom = dot(ray.dir, cyl->axis);
-	if (fabs(top_denom) > EPSILON)
-	{
-		cap_t = dot(vecsub(top_center, ray.start), cyl->axis) / top_denom;
-		if (cap_t > EPSILON)
-		{
-			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
-			if (veclen(vecsub(cap_hit_point, top_center)) <= cyl->radius)
-			{
-				if (cap_t < best_t)
-				{
-					best_t = cap_t;
-					best_normal = cyl->axis;
-					hit_type = 2;
-				}
-			}
-		}
-	}
-	// Bottom cap intersection
-	bot_center = vecsub(cyl->center, scalar(cyl->axis, cyl->height / 2));
-	bot_denom = dot(ray.dir, cyl->axis);
-	if (fabs(bot_denom) > EPSILON)
-	{
-		cap_t = dot(vecsub(bot_center, ray.start), cyl->axis) / bot_denom;
-		if (cap_t > EPSILON)
-		{
-			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
-			if (veclen(vecsub(cap_hit_point, bot_center)) <= cyl->radius)
-			{
-				if (cap_t < best_t)
-				{
-					best_t = cap_t;
-					best_normal = scalar(cyl->axis, -1);
-					hit_type = 3;
-				}
-			}
-		}
-	}
-	// Return hit information
-	if (hit_type > 0)
-	{
-		hit->t = best_t;
-		hit->normal = best_normal;
 		hit->color = ((t_obj *)self)->color;
 		return (1);
+	}
+	return (0);
+}
+
+static void	calculat_coeff(t_ray ray, t_cylinder *cyl, t_quadratic *quad)
+{
+	t_vec	oc;
+	t_vec	dir_proj;
+	t_vec	oc_proj;
+	t_vec	dir;
+
+	oc = vecsub(ray.start, cyl->center);
+	dir_proj = scalar(cyl->axis, dot(ray.dir, cyl->axis));
+	oc_proj = scalar(cyl->axis, dot(oc, cyl->axis));
+	dir = vecsub(ray.dir, dir_proj);
+	oc = vecsub(oc, oc_proj);
+	quad->a = dot(dir, dir);
+	quad->b = 2.0f * dot(oc, dir);
+	quad->c = dot(oc, oc) - (cyl->radius * cyl->radius);
+	quadratic(quad);
+}
+
+static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
+{
+	t_vec	hit_point;
+	t_vec	axis_point;
+	float	center_proj;
+	t_vec	center_point;
+
+	if (t > EPSILON)
+	{
+		hit_point = vecsum(ray.start, scalar(ray.dir, t));
+		center_point = vecsub(hit_point, cyl->center);
+		center_proj = dot(center_point, cyl->axis);
+		if (center_proj >= -cyl->height / 2 && center_proj <= cyl->height / 2)
+		{
+			hit->t = t;
+			axis_point = vecsum(cyl->center, scalar(cyl->axis, center_proj));
+			hit->normal = normalize(vecsub(hit_point, axis_point));
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static int	hit_cap(t_ray ray, t_hit *hit, t_cylinder *cyl, t_vec (*f)(t_vec,
+			t_vec))
+{
+	t_vec	cap_hit_point;
+	t_vec	center;
+	float	denom;
+	float	cap_t;
+
+	center = f(cyl->center, scalar(cyl->axis, cyl->height / 2));
+	denom = dot(ray.dir, cyl->axis);
+	if (fabs(denom) > EPSILON)
+	{
+		cap_t = dot(vecsub(center, ray.start), cyl->axis) / denom;
+		if (cap_t > EPSILON)
+		{
+			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
+			if (veclen(vecsub(cap_hit_point, center)) <= cyl->radius)
+			{
+				if (cap_t < hit->t)
+				{
+					hit->t = cap_t;
+					hit->normal = scalar(cyl->axis, -1);
+					return (1);
+				}
+			}
+		}
 	}
 	return (0);
 }

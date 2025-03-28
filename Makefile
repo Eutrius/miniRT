@@ -17,10 +17,10 @@ SRC = src/main.c \
 	  src/hooks.c \
 	  src/constructor.c \
 	  src/math.c \
+	  src/math2.c \
 	  src/hit/hitplane.c \
 	  src/hit/hitsphere.c \
 	  src/hit/hitcylinder.c \
-	  src/hit/hit_utils.c \
 	  src/validate.c \
 	  src/unmarsh_utils.c \
 	  src/unmarsh.c \
