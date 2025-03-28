@@ -23,17 +23,14 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	float		top_denom;
 	t_vec		bot_center;
 	float		bot_denom;
+	float		m;
 
 	t_vec hit_point, cp, axis_point;
-	float m, epsilon;
 	float dot_dir_axis, dot_oc_axis;
 	t_vec dir_proj, oc_proj;
 	t_vec oc, dir;
 	float a, b, c, discriminant;
 	float t1, t2, cap_t;
-	// Small epsilon for floating-point comparisons
-	epsilon = 1e-6f;
-	// Extract cylinder object from void pointer
 	cyl = ((t_obj *)self)->self;
 	// Vector from cylinder center to ray origin
 	oc = vecsub(ray.start, cyl->center);
@@ -47,12 +44,12 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	oc = vecsub(oc, oc_proj);
 	// Quadratic equation coefficients
 	a = dot(dir, dir);
-	if (a < epsilon)
+	if (a < EPSILON)
 		return (0);
 	b = 2.0f * dot(oc, dir);
 	c = dot(oc, oc) - (cyl->radius * cyl->radius);
 	discriminant = b * b - 4 * a * c;
-	if (discriminant < epsilon)
+	if (discriminant < EPSILON)
 		return (0);
 	// Calculate intersection points
 	t1 = (-b - sqrt(discriminant)) / (2 * a);
@@ -68,7 +65,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	best_t = INFINITY;
 	int hit_type = 0; // 0: no hit, 1: body, 2: top cap, 3: bottom cap
 	// Cylinder body intersection
-	if (t1 > epsilon)
+	if (t1 > EPSILON)
 	{
 		hit_point = vecsum(ray.start, scalar(ray.dir, t1));
 		cp = vecsub(hit_point, cyl->center);
@@ -81,7 +78,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 			hit_type = 1;
 		}
 	}
-	if (best_t == INFINITY && t2 > epsilon)
+	if (best_t == INFINITY && t2 > EPSILON)
 	{
 		hit_point = vecsum(ray.start, scalar(ray.dir, t2));
 		cp = vecsub(hit_point, cyl->center);
@@ -97,10 +94,10 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	// Top cap intersection
 	top_center = vecsum(cyl->center, scalar(cyl->axis, cyl->height / 2));
 	top_denom = dot(ray.dir, cyl->axis);
-	if (fabs(top_denom) > epsilon)
+	if (fabs(top_denom) > EPSILON)
 	{
 		cap_t = dot(vecsub(top_center, ray.start), cyl->axis) / top_denom;
-		if (cap_t > epsilon)
+		if (cap_t > EPSILON)
 		{
 			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
 			if (veclen(vecsub(cap_hit_point, top_center)) <= cyl->radius)
@@ -117,10 +114,10 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	// Bottom cap intersection
 	bot_center = vecsub(cyl->center, scalar(cyl->axis, cyl->height / 2));
 	bot_denom = dot(ray.dir, cyl->axis);
-	if (fabs(bot_denom) > epsilon)
+	if (fabs(bot_denom) > EPSILON)
 	{
 		cap_t = dot(vecsub(bot_center, ray.start), cyl->axis) / bot_denom;
-		if (cap_t > epsilon)
+		if (cap_t > EPSILON)
 		{
 			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
 			if (veclen(vecsub(cap_hit_point, bot_center)) <= cyl->radius)
