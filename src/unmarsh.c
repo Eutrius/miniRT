@@ -28,8 +28,6 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	}
 	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
-	set_camera_axis(scene);
-	set_viewport(scene, scene->data->w, scene->data->h);
 	free_matrix(args);
 	return (err);
 }

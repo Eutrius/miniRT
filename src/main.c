@@ -9,6 +9,8 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 	scene->data = data;
 	filestr = readfile(argc, argv);
 	err = unmarshal(filestr, scene);
+	set_camera_axis(scene);
+	set_viewport(scene, scene->data->w, scene->data->h);
 	free(filestr);
 	if (err)
 		exit(1);
