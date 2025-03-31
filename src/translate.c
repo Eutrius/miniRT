@@ -2,9 +2,9 @@
 
 int	translate(t_data *data, int x, int y)
 {
-	void	*obj;
-	t_plane	*to_move;
-	float	fov_factor;
+	void		*obj;
+	t_sphere	*to_move;
+	float		fov_factor;
 
 	obj = data->scene.objs[data->obj_onhand].self;
 	to_move = obj;

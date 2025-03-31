@@ -93,6 +93,13 @@ typedef struct s_cylinder
 	t_vec				axis;
 }						t_cylinder;
 
+typedef struct s_cone
+{
+	t_vec				center;
+	float				angle;
+	t_vec				axis;
+}						t_cone;
+
 typedef struct s_scene
 {
 	t_obj				*objs;
