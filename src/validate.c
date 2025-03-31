@@ -1,7 +1,6 @@
 #include "../include/minirt.h"
 #include <unistd.h>
 
-
 static char	*filetostr(int fd)
 {
 	int		r;
@@ -30,7 +29,8 @@ char	*readfile(int argc, char **argv)
 	if (argc != 2)
 		exit(write(2, "Error\nWrong argument count\n", 27));
 	point = ft_strrchr(argv[1], '.');
-	if (!point || (*(point+1) != 'r' || *(point + 2) != 't' || *(point + 3) != 0))
+	if (!point || (*(point + 1) != 'r' || *(point + 2) != 't' || *(point
+				+ 3) != 0))
 		exit(write(2, "Error\nWrong file extension!\n", 28));
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)

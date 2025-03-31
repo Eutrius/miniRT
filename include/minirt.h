@@ -179,4 +179,5 @@ void					hooks(t_data *data);
 void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
 int						translate(t_data *data, int x, int y);
+int						render_scene(void *arg);
 #endif

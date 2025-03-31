@@ -25,5 +25,6 @@ int	main(int argc, char **argv)
 	data.h /= 2;
 	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
 	hooks(&data);
+	render_scene(&data);
 	mlx_loop(data.mlx);
 }

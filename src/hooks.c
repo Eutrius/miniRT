@@ -1,16 +1,8 @@
 #include "minirt.h"
 #include <X11/keysym.h>
 
-static int	render_scene(void *arg);
 static int	input_event(int keycode, t_data *data);
 static int	exit_event(t_data *data);
-
-int	mouse_move(int x, int y, void *param)
-{
-	(void)param;
-	printf("Mouse move at (%d, %d)\n", x, y);
-	return (0);
-}
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
@@ -28,13 +20,13 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 	{
 		ray = ray_per_pixel(&scene, &scene.cam, x, y);
 		finalhit.t = 0xffffff;
+		data->obj_onhand = -1;
 		while (i < scene.objc)
 		{
 			if (scene.objs[i].hit(ray, &hit, &scene.objs[i]))
 				if (hit.t < finalhit.t)
 				{
 					finalhit = hit;
-					printf("hit");
 					data->obj_onhand = i;
 					data->from_x = x;
 					data->from_y = y;
@@ -42,7 +34,6 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 			i++;
 		}
 	}
-	printf("Mouse pressed: Button %d at (%d, %d)\n", button, x, y);
 	return (0);
 }
 
@@ -54,22 +45,22 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 	data = param;
 	if (button == 1)
 	{
+		if (data->obj_onhand == -1)
+			return (0);
 		translate(data, x - data->from_x, y - data->from_y);
+		data->obj_onhand = -1;
+		render_scene(data);
 	}
-	printf("Mouse released: Button %d at (%d, %d)\n", button, x, y);
 	return (0);
 }
 void	hooks(t_data *data)
 {
-	mlx_loop_hook(data->mlx, render_scene, data);
 	mlx_key_hook(data->mlx_win, input_event, data);
-	mlx_hook(data->mlx_win, 17, 0, exit_event, data);
-	mlx_hook(data->mlx_win, 6, 0, mouse_move, data);
 	mlx_hook(data->mlx_win, 4, 1L << 2, mouse_press_hook, data);
 	mlx_hook(data->mlx_win, 5, 1L << 3, mouse_release_hook, data);
 }
 
-static int	render_scene(void *arg)
+int	render_scene(void *arg)
 {
 	t_data	*data;
 

@@ -28,9 +28,8 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	if (quad.discriminant < EPSILON)
 		return (0);
 	hit->t = INFINITY;
-	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit,
-				quad.t2)) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit,
-			cyl, vecsub))
+	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit, quad.t2))
+		|| hit_cap(ray, hit, cyl, vecsum) || hit_cap(ray, hit, cyl, vecsub))
 	{
 		hit->color = ((t_obj *)self)->color;
 		return (1);
