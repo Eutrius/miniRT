@@ -39,7 +39,7 @@ static int	unmarshalplane(char *str, t_scene *scene)
 	if (args && args[1] && args[2] && args[3])
 	{
 		self = ft_calloc(sizeof(t_plane), 1);
-		self->coord = getcoords(args[1], &err);
+		self->center = getcoords(args[1], &err);
 		self->normal = getcoords(args[2], &err);
 		if (self->normal.y < -1.0 || self->normal.y > 1.0 || self->normal.x <
 			-1.0 || self->normal.x > 1.0 || self->normal.z < -1.0

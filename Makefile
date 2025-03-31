@@ -22,6 +22,7 @@ SRC = src/main.c \
 	  src/hit/hitsphere.c \
 	  src/hit/hitcylinder.c \
 	  src/validate.c \
+	  src/translate.c \
 	  src/cameraman.c \
 	  src/unmarsh_utils.c \
 	  src/unmarsh.c \

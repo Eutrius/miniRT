@@ -81,7 +81,7 @@ typedef struct s_sphere
 
 typedef struct s_plane
 {
-	t_vec				coord;
+	t_vec				center;
 	t_vec				normal;
 }						t_plane;
 
@@ -120,6 +120,10 @@ typedef struct s_data
 	void				*mlx_win;
 	int					h;
 	int					w;
+	int					obj_onhand;
+	int					from_x;
+	int					from_y;
+
 }						t_data;
 
 /*rendering*/
@@ -174,4 +178,5 @@ void					print_scene(const t_scene *scene);
 void					hooks(t_data *data);
 void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
+int						translate(t_data *data, int x, int y);
 #endif

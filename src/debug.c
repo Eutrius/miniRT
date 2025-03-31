@@ -59,7 +59,7 @@ void	print_sphere(const t_sphere *sphere)
 void	print_plane(const t_plane *plane)
 {
 	printf("PLANE: coord: ");
-	print_vec(&plane->coord);
+	print_vec(&plane->center);
 	printf("PLANE: normal: ");
 	print_vec(&plane->normal);
 }
