@@ -56,6 +56,7 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 void	hooks(t_data *data)
 {
 	mlx_key_hook(data->mlx_win, input_event, data);
+	mlx_hook(data->mlx_win, 17, 0, exit_event, data);
 	mlx_hook(data->mlx_win, 4, 1L << 2, mouse_press_hook, data);
 	mlx_hook(data->mlx_win, 5, 1L << 3, mouse_release_hook, data);
 }
