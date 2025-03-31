@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 #include <unistd.h>
 
 static char	*filetostr(int fd)

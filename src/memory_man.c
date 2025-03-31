@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 
 void	free_matrix(char **mat)
 {

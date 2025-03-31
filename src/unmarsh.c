@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 #include <unistd.h>
 
 static int	unmarshalcamera(char *str, t_scene *scene)
@@ -34,27 +34,26 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 
 static int	unmarshallight(char *str, t_scene *scene)
 {
-	static char	present;
 	char		**args;
 	int			err;
 
 	err = 0;
-	if (present != 0)
-		return (write(2, "Error: Too many lights\n", 24));
 	args = ft_split(str, ' ');
 	if (args && args[1] && args[2] && args[3])
 	{
-		scene->light.pos = getcoords(args[1], &err);
+		scene->light[scene->lightc - 1].pos = getcoords(args[1], &err);
 		if (!is_float(args[2]))
 			err = (write(2, "Light Ratio not a number ([0.0,1.0])\n", 38));
-		scene->light.ratio = ft_atof(args[2]);
-		if (scene->light.ratio < 0.0 || scene->light.ratio > 1.0)
+		scene->light[scene->lightc - 1].ratio = ft_atof(args[2]);
+		if (scene->light[scene->lightc - 1].ratio < 0.0 ||
+				scene->light[scene->lightc - 1].ratio > 1.0)
 			err = (write(2, "Wrong Light Ratio, ([0.0,1.0])\n", 32));
-		scene->light.color = getcolor(args[3], &err);
+		scene->light[scene->lightc].color = getcolor(args[3], &err);
 	}
 	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
 	free_matrix(args);
+	scene->lightc--;
 	return (err);
 }
 
@@ -83,20 +82,46 @@ static int	unmarshalambient(char *str, t_scene *scene)
 	return (err);
 }
 
+/* in the int array counts the first is the objc and the second is the lightc
+ * norme reasons */
+int	malloc_objs(t_scene *scene, char **spl, int *counts)
+{
+	int		err;
+	int		i;
+	char	*str;
+
+	err = 0;
+	i = 0;
+	ft_memset(counts, 0, sizeof(int));
+	while (spl[i])
+	{
+		str = spl[i];
+		if (ft_strchr(str, 'L'))
+			counts[1]++;
+		else if (!ft_strchr(str, 'A') && !ft_strchr(str, 'C'))
+			counts[0]++;
+		i++;
+	}
+	scene->objs = ft_calloc(sizeof(t_obj) , (counts[0] + 1));
+	scene->light = ft_calloc(sizeof(t_light) , (counts[1] + 1));
+	if (scene->objs == 0 || scene->light == 0)
+		err = write(2, "Error: Malloc on objects or lights\n", 36);
+	return err;
+}
+
 int	unmarshal(char *file, t_scene *scene)
 {
 	char	**spl;
 	char	*str;
 	int		i;
 	int		err;
+	int		counts[2];
 
 	err = 0;
-	i = 0;
+	i = -1;
 	spl = ft_split(file, '\n');
-	while (spl[i])
-		i++;
-	scene->objs = malloc(sizeof(t_obj) * (i - 2));
-	while (--i >= 0 && err == 0)
+	err = malloc_objs(scene, spl, counts);
+	while (spl[++i] != 0 && err == 0)
 	{
 		str = spl[i];
 		if (ft_strchr(str, 'A'))
@@ -108,5 +133,7 @@ int	unmarshal(char *file, t_scene *scene)
 		else
 			err = unmarshalobject(str, scene);
 	}
+	scene->objc = counts[0];
+	scene->lightc = counts[1];
 	return (err);
 }

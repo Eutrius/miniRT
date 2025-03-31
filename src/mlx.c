@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 
 t_img new_image(void *mlx, int w, int h)
 {

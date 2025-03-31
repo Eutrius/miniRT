@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 #include <stdio.h>
 
 // Function implementations
@@ -77,7 +77,8 @@ void	print_scene(const t_scene *scene)
 {
 	printf("SCENE: objs: %p, objc: %d\n", scene->objs, scene->objc);
 	printf("SCENE: light: ");
-	print_light(&scene->light);
+	for (int i = 0; i < scene->lightc; i++)
+		print_light(&scene->light[i]);
 	printf("SCENE: amb: ");
 	print_ambient(&scene->amb);
 	printf("SCENE: cam: ");

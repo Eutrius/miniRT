@@ -1,10 +1,5 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 #include <stdio.h>
-
-void	lightman(t_scene scene, t_ray r, t_hit *hit);
-int		coloradd(int colora, int colorb);
-int		colormult(int color, float multiplier);
-int		is_hit_closer_than_light(t_ray ray, t_hit hit, t_light light);
 
 void	*render(t_scene scene, int w, int h, void *mlx)
 {
@@ -37,11 +32,7 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 				i++;
 			}
 			if (finalhit.color != 0)
-			{
-				finalhit.color = coloradd(finalhit.color,
-						colormult(scene.amb.color, scene.amb.ratio));
 				lightman(scene, r, &finalhit);
-			}
 			pixel(&img, x, y, finalhit.color);
 			x--;
 		}
@@ -49,40 +40,6 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 	}
 	printf("done rendering\n");
 	return (img.img);
-}
-void	lightman(t_scene scene, t_ray r, t_hit *hit)
-{
-	t_hit	ph;
-	int		i;
-	float	intensity;
-	t_ray	lightray;
-
-	i = -1;
-	lightray.start = vecsum(r.start, scalar(r.dir, hit->t - 0.0001f));
-	lightray.dir = normalize(vecsub(scene.light.pos, lightray.start));
-	while (++i < scene.objc)
-	{
-		if (scene.objs[i].hit(lightray, &ph, &scene.objs[i]))
-			if (is_hit_closer_than_light(lightray, ph, scene.light))
-				return ;
-	}
-	intensity = dot(hit->normal, lightray.dir);
-	if (intensity < 0)
-		return ;
-	hit->color = coloradd(hit->color, colormult(scene.light.color,
-				scene.light.ratio * intensity));
-}
-
-int	is_hit_closer_than_light(t_ray ray, t_hit hit, t_light light)
-{
-	t_vec	hit_point;
-	t_vec	to_hit;
-	t_vec	to_light;
-
-	hit_point = vecsum(ray.start, scalar(ray.dir, hit.t));
-	to_hit = vecsub(hit_point, ray.start);
-	to_light = vecsub(light.pos, ray.start);
-	return (dot(to_hit, to_hit)) < (dot(to_light, to_light));
 }
 
 int	clamp(int val)

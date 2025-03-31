@@ -30,7 +30,8 @@ SRC = src/main.c \
 	  src/memory_man.c \
 	  src/debug.c \
 	  src/render.c \
-	  src/mlx.c
+	  src/mlx.c \
+	  src/lightman.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

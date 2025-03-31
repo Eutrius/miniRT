@@ -70,6 +70,7 @@ typedef struct s_object
 {
 	void				*self;
 	int					color;
+	float				rough;
 	char				(*hit)(t_ray ray, t_hit *hit, void *self);
 }						t_obj;
 
@@ -104,7 +105,8 @@ typedef struct s_scene
 {
 	t_obj				*objs;
 	int					objc;
-	t_light				light;
+	t_light				*light;
+	int					lightc;
 	t_amb				amb;
 	t_cam				cam;
 	t_data				*data;
@@ -137,6 +139,7 @@ typedef struct s_data
 
 void					pixel(t_img *data, int x, int y, int color);
 void					*render(t_scene scene, int w, int h, void *mlx);
+void					lightman(t_scene scene, t_ray r, t_hit *hit);
 
 /*RAYTRACING*/
 char					hitsphere(t_ray ray, t_hit *hit, void *self);
@@ -165,6 +168,9 @@ t_vec					scalar(t_vec a, float b);
 t_vec					cross(t_vec a, t_vec b);
 t_vec					normalize(t_vec v);
 void					quadratic(t_quadratic *quad);
+int						coloradd(int colora, int colorb);
+int						colormult(int color, float multiplier);
+int						clamp(int val);
 
 // memory
 void					free_matrix(char **mat);
@@ -187,4 +193,5 @@ void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
 int						translate(t_data *data, int x, int y);
 int						render_scene(void *arg);
+
 #endif

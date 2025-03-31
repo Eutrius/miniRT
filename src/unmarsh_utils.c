@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 
 t_vec getcoords(char *str, int *err)
 {
