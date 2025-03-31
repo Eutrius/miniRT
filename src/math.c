@@ -1,4 +1,4 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 
 t_vec	vecsum(t_vec a, t_vec b)
 {

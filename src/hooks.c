@@ -5,11 +5,26 @@ static int	render_scene(void *arg);
 static int	input_event(int keycode, t_data *data);
 static int	exit_event(t_data *data);
 
+int	mouse_hook(int button, int x, int y, void *param)
+{
+	(void)param;
+	printf("Mouse button %d pressed at (%d, %d)\n", button, x, y);
+	return (0);
+}
+int	mouse_move(int x, int y, void *param)
+{
+	(void)param;
+	printf("Mouse move at (%d, %d)\n", x, y);
+	return (0);
+}
+
 void	hooks(t_data *data)
 {
 	mlx_loop_hook(data->mlx, render_scene, data);
 	mlx_key_hook(data->mlx_win, input_event, data);
+	mlx_mouse_hook(data->mlx_win, mouse_hook, data);
 	mlx_hook(data->mlx_win, 17, 0, exit_event, data);
+	mlx_hook(data->mlx_win, 6, 0, mouse_move, data);
 }
 
 static int	render_scene(void *arg)

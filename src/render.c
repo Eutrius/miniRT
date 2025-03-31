@@ -12,22 +12,13 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 	int		y;
 	int		x;
 	t_ray	r;
-	float	camw;
-	float	camh;
 	t_hit	hit;
 	t_hit	finalhit;
 	int		i;
-	float	deltax;
-	float	deltay;
-	t_vec	pp;
 
 	img.img = mlx_new_image(mlx, w, h);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
-	camw = tan((scene.cam.fov * (3.14 / 180)) / 2);
-	camh = camw / (((float)w / (float)h));
-	deltax = (camw * 2) / w;
-	deltay = (camh * 2) / h;
 	y = h;
 	while (y >= 0)
 	{
@@ -35,12 +26,9 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 		while (x >= 0)
 		{
 			i = 0;
-			pp = vecsum(scene.cam.ori, scene.cam.pos);
-			pp.x = pp.x - camw + (x * deltax) + (deltax / 2);
-			pp.y = pp.y + camh - (y * deltay) + (deltay / 2);
 			finalhit.color = 0;
 			finalhit.t = 0xffffff;
-			r = ray(scene.cam.pos, normalize(vecsub(pp, scene.cam.pos)));
+			r = ray_per_pixel(&scene, &scene.cam, x, y);
 			while (i < scene.objc)
 			{
 				if (scene.objs[i].hit(r, &hit, &scene.objs[i]))

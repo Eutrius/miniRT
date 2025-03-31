@@ -4,8 +4,8 @@
 static int	unmarshalcamera(char *str, t_scene *scene)
 {
 	static char	present;
-	char	**args;
-	int		err;
+	char		**args;
+	int			err;
 
 	err = 0;
 	if (present != 0)
@@ -15,18 +15,21 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	{
 		scene->cam.pos = getcoords(args[1], &err);
 		scene->cam.ori = getcoords(args[2], &err);
-		if (scene->cam.ori.x < -1.0 || scene->cam.ori.x > 1.0 
+		if (scene->cam.ori.x < -1.0 || scene->cam.ori.x > 1.0
 			|| scene->cam.ori.y < -1.0 || scene->cam.ori.y > 1.0
 			|| scene->cam.ori.z < -1.0 || scene->cam.ori.z > 1.0)
-			err = write(2, "Error: Wrong camera orientation [-1,1][-1,1][-1,1]\n", 51);
+			err = write(2,
+					"Error: Wrong camera orientation [-1,1][-1,1][-1,1]\n", 51);
 		if (!is_float(args[3]))
 			err = (write(2, "Error: Fov not a number ([0.0,180.0])\n", 39));
 		scene->cam.fov = ft_atof(args[3]);
 		if (scene->cam.fov < 0.0 || scene->cam.fov > 180.0)
 			err = (write(2, "Error: Wrong FOV, ([0.0,180.0])\n", 33));
 	}
-	else 
+	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
+	set_camera_axis(scene);
+	set_viewport(scene, scene->data->w, scene->data->h);
 	free_matrix(args);
 	return (err);
 }
@@ -34,8 +37,8 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 static int	unmarshallight(char *str, t_scene *scene)
 {
 	static char	present;
-	char	**args;
-	int		err;
+	char		**args;
+	int			err;
 
 	err = 0;
 	if (present != 0)
@@ -51,18 +54,17 @@ static int	unmarshallight(char *str, t_scene *scene)
 			err = (write(2, "Wrong Light Ratio, ([0.0,1.0])\n", 32));
 		scene->light.color = getcolor(args[3], &err);
 	}
-	else 
+	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
 	free_matrix(args);
 	return (err);
 }
 
-
 static int	unmarshalambient(char *str, t_scene *scene)
 {
 	static char	present;
-	char	**args;
-	int		err;
+	char		**args;
+	int			err;
 
 	err = 0;
 	if (present != 0)
@@ -77,7 +79,7 @@ static int	unmarshalambient(char *str, t_scene *scene)
 			err = (write(2, "Wrong Ambient Ratio, ([0.0,1.0])\n", 31));
 		scene->amb.color = getcolor(args[2], &err);
 	}
-	else 
+	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
 	free_matrix(args);
 	return (err);
@@ -93,7 +95,7 @@ int	unmarshal(char *file, t_scene *scene)
 	err = 0;
 	i = 0;
 	spl = ft_split(file, '\n');
-	while (spl[i]) 
+	while (spl[i])
 		i++;
 	scene->objs = malloc(sizeof(t_obj) * (i - 2));
 	while (--i >= 0 && err == 0)
@@ -106,8 +108,7 @@ int	unmarshal(char *file, t_scene *scene)
 		else if (ft_strchr(str, 'C'))
 			err = unmarshalcamera(str, scene);
 		else
-		 	err = unmarshalobject(str, scene);
+			err = unmarshalobject(str, scene);
 	}
 	return (err);
 }
-

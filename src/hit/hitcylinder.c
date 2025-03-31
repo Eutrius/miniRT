@@ -63,7 +63,7 @@ static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
 	float	center_proj;
 	t_vec	center_point;
 
-	if (t > EPSILON)
+	if (t >= EPSILON)
 	{
 		hit_point = vecsum(ray.start, scalar(ray.dir, t));
 		center_point = vecsub(hit_point, cyl->center);
@@ -89,10 +89,10 @@ static int	hit_cap(t_ray ray, t_hit *hit, t_cylinder *cyl, t_vec (*f)(t_vec,
 
 	center = f(cyl->center, scalar(cyl->axis, cyl->height / 2));
 	denom = dot(ray.dir, cyl->axis);
-	if (fabs(denom) > EPSILON)
+	if (fabs(denom) >= EPSILON)
 	{
 		cap_t = dot(vecsub(center, ray.start), cyl->axis) / denom;
-		if (cap_t > EPSILON)
+		if (cap_t >= EPSILON)
 		{
 			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
 			if (veclen(vecsub(cap_hit_point, center)) <= cyl->radius)
