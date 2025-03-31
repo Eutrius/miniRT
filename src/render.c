@@ -3,8 +3,8 @@
 
 void	lightman(t_scene scene, t_ray r, t_hit *hit);
 int		coloradd(int colora, int colorb);
-int colormult(int color, float multiplier);
-int is_hit_closer_than_light(t_ray ray, t_hit hit, t_light light);
+int		colormult(int color, float multiplier);
+int		is_hit_closer_than_light(t_ray ray, t_hit hit, t_light light);
 
 void	*render(t_scene scene, int w, int h, void *mlx)
 {
@@ -12,34 +12,23 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 	int		y;
 	int		x;
 	t_ray	r;
-	float	camw;
-	float	camh;
 	t_hit	hit;
 	t_hit	finalhit;
 	int		i;
-	float	deltax;
-	float	deltay;
 
 	img.img = mlx_new_image(mlx, w, h);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-								&img.endian);
-	camw = tan((scene.cam.fov * (3.14 / 180)) / 2);
-	camh = camw / (((float)w / (float)h));
-	deltax = (camw * 2) / w;
-	deltay = (camh * 2) / h;
-	y =	h;
+			&img.endian);
+	y = h;
 	while (y >= 0)
 	{
 		x = w;
 		while (x >= 0)
 		{
 			i = 0;
-			t_vec pp = vecsum(scene.cam.ori, scene.cam.pos);
-			pp.x = pp.x - camw + (x * deltax) + (deltax / 2);
-			pp.y = pp.y + camh - (y * deltay) + (deltay / 2);
 			finalhit.color = 0;
 			finalhit.t = 0xffffff;
-			r = ray(scene.cam.pos, normalize(vecsub(pp, scene.cam.pos)));
+			r = ray_per_pixel(&scene, &scene.cam, x, y);
 			while (i < scene.objc)
 			{
 				if (scene.objs[i].hit(r, &hit, &scene.objs[i]))
@@ -49,7 +38,8 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 			}
 			if (finalhit.color != 0)
 			{
-				finalhit.color = coloradd(finalhit.color, colormult(scene.amb.color, scene.amb.ratio));
+				finalhit.color = coloradd(finalhit.color,
+						colormult(scene.amb.color, scene.amb.ratio));
 				lightman(scene, r, &finalhit);
 			}
 			pixel(&img, x, y, finalhit.color);
@@ -58,7 +48,7 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 		y--;
 	}
 	printf("done rendering\n");
-	return img.img;
+	return (img.img);
 }
 void	lightman(t_scene scene, t_ray r, t_hit *hit)
 {
@@ -68,7 +58,7 @@ void	lightman(t_scene scene, t_ray r, t_hit *hit)
 	t_ray	lightray;
 
 	i = -1;
-	lightray.start = vecsum(r.start, scalarprod(r.dir, hit->t - 0.0001f));
+	lightray.start = vecsum(r.start, scalar(r.dir, hit->t - 0.0001f));
 	lightray.dir = normalize(vecsub(scene.light.pos, lightray.start));
 	while (++i < scene.objc)
 	{
@@ -79,19 +69,20 @@ void	lightman(t_scene scene, t_ray r, t_hit *hit)
 	intensity = dot(hit->normal, lightray.dir);
 	if (intensity < 0)
 		return ;
-	hit->color = coloradd(hit->color, colormult(scene.light.color, scene.light.ratio * intensity));
+	hit->color = coloradd(hit->color, colormult(scene.light.color,
+				scene.light.ratio * intensity));
 }
 
 int	is_hit_closer_than_light(t_ray ray, t_hit hit, t_light light)
-{ 
-	t_vec hit_point;
-    t_vec to_hit;
-    t_vec to_light;
+{
+	t_vec	hit_point;
+	t_vec	to_hit;
+	t_vec	to_light;
 
-	hit_point = vecsum(ray.start, scalarprod(ray.dir, hit.t));
+	hit_point = vecsum(ray.start, scalar(ray.dir, hit.t));
 	to_hit = vecsub(hit_point, ray.start);
 	to_light = vecsub(light.pos, ray.start);
-    return (dot(to_hit, to_hit)) < (dot(to_light, to_light));
+	return (dot(to_hit, to_hit)) < (dot(to_light, to_light));
 }
 
 int	clamp(int val)
@@ -103,21 +94,19 @@ int	clamp(int val)
 	return (val);
 }
 
-int colormult(int color, float multiplier)
+int	colormult(int color, float multiplier)
 {
-    int rgba[3];
-    int ret[3];
+	int	rgba[3];
+	int	ret[3];
 
-    rgba[0] = (color >> 16) & 0xff;
-    rgba[1] = (color >> 8) & 0xff;
-    rgba[2] = color & 0xff;
-    ret[0] = clamp((int)(rgba[0] * multiplier));
-    ret[1] = clamp((int)(rgba[1] * multiplier));
-    ret[2] = clamp((int)(rgba[2] * multiplier));
-
-    return ((ret[0] << 16) | (ret[1] << 8) | ret[2]);
+	rgba[0] = (color >> 16) & 0xff;
+	rgba[1] = (color >> 8) & 0xff;
+	rgba[2] = color & 0xff;
+	ret[0] = clamp((int)(rgba[0] * multiplier));
+	ret[1] = clamp((int)(rgba[1] * multiplier));
+	ret[2] = clamp((int)(rgba[2] * multiplier));
+	return ((ret[0] << 16) | (ret[1] << 8) | ret[2]);
 }
-
 
 int	coloradd(int colora, int colorb)
 {
@@ -134,5 +123,5 @@ int	coloradd(int colora, int colorb)
 	ret[0] = clamp(rgba[0] + rgbb[0]);
 	ret[1] = clamp(rgba[1] + rgbb[1]);
 	ret[2] = clamp(rgba[2] + rgbb[2]);
-    return ((ret[0] << 16) | (ret[1] << 8) | ret[2]);
+	return ((ret[0] << 16) | (ret[1] << 8) | ret[2]);
 }

@@ -1,34 +1,32 @@
-#include "../include/minirt.h"
+#include "minirt.h"
 
-static	void init(int argc, char **argv, t_scene *scene)
+static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 {
 	char	*filestr;
 	int		err;
 
 	ft_memset(scene, 0, sizeof(t_scene));
+	scene->data = data;
 	filestr = readfile(argc, argv);
 	err = unmarshal(filestr, scene);
-	free(filestr);
 	if (err)
 		exit(1);
+	free(filestr);
+	set_camera_axis(scene);
+	set_viewport(scene, scene->data->w, scene->data->h);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_scene	scene;
-	void	*mlx;
-	void	*mlx_win;
-	int		h;
-	int		w;
+	t_data	data;
 
-	init(argc, argv, &scene);
-	mlx = mlx_init();
-	mlx_get_screen_size(mlx, &w, &h);
-	mlx_win = mlx_new_window(mlx, w, h, "MiniRT");
-
-	mlx_put_image_to_window(mlx, mlx_win, render(scene, w, h, mlx), 0, 0);
-	mlx_loop(mlx);
+	data.mlx = mlx_init();
+	mlx_get_screen_size(data.mlx, &data.w, &data.h);
+	init(argc, argv, &data.scene, &data);
+	data.w /= 2;
+	data.h /= 2;
+	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
+	hooks(&data);
+	render_scene(&data);
+	mlx_loop(data.mlx);
 }
-
-
-

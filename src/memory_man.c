@@ -13,4 +13,3 @@ void	free_matrix(char **mat)
 	if (mat)
 		free(mat);
 }
-
