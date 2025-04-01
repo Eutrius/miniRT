@@ -3,36 +3,26 @@
 
 static int	input_event(int keycode, t_data *data);
 static int	exit_event(t_data *data);
+// up,down,right,left,s,w, c,l move camera/lights
+// S-M_MOUSE rotate camera
+// R_MOUSE transform object
+// L_MOUSE translate object
+// M_mouse rotate object
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
 	t_data	*data;
-	t_ray	ray;
-	int		i;
 	t_scene	scene;
 	t_hit	hit;
-	t_hit	finalhit;
 
-	i = 0;
+	(void)button;
 	data = param;
 	scene = data->scene;
-	if (button == 1)
+	data->obj_onhand = project_ray(&scene, &hit, x, y);
+	if (data->obj_onhand != -1)
 	{
-		ray = ray_per_pixel(&scene, &scene.cam, x, y);
-		finalhit.t = 0xffffff;
-		data->obj_onhand = -1;
-		while (i < scene.objc)
-		{
-			if (scene.objs[i].hit(ray, &hit, &scene.objs[i]))
-				if (hit.t < finalhit.t)
-				{
-					finalhit = hit;
-					data->obj_onhand = i;
-					data->from_x = x;
-					data->from_y = y;
-				}
-			i++;
-		}
+		data->from_x = x;
+		data->from_y = y;
 	}
 	return (0);
 }
@@ -43,11 +33,14 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 
 	(void)param;
 	data = param;
-	if (button == 1)
+	if (data->obj_onhand == -1)
+		return (0);
+	if (button == L_MOUSE || button == M_MOUSE || button == R_MOUSE)
 	{
-		if (data->obj_onhand == -1)
-			return (0);
-		translate(data, x - data->from_x, y - data->from_y);
+		if (button == L_MOUSE)
+			translate(data, x - data->from_x, y - data->from_y);
+		if (button == R_MOUSE)
+			transform(data, x, y);
 		data->obj_onhand = -1;
 		render_scene(data);
 	}

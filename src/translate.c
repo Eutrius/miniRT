@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	translate(t_data *data, int x, int y)
+void	translate(t_data *data, int x, int y)
 {
 	void		*obj;
 	t_sphere	*to_move;
@@ -13,5 +13,4 @@ int	translate(t_data *data, int x, int y)
 				* fov_factor));
 	to_move->center = vecsum(to_move->center, scalar(data->scene.cam.up, -y
 				* fov_factor));
-	return (0);
 }
