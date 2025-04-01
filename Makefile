@@ -21,6 +21,7 @@ SRC = src/main.c \
 	  src/hit/hitplane.c \
 	  src/hit/hitsphere.c \
 	  src/hit/hitcylinder.c \
+	  src/hit/hitcone.c \
 	  src/validate.c \
 	  src/translate.c \
 	  src/cameraman.c \
