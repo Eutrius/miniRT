@@ -9,6 +9,7 @@
 # include <stdlib.h>
 
 # define EPSILON 0.00001f
+# define SCALE 0.05f
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3

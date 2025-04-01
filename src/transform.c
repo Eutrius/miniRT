@@ -1,22 +1,25 @@
 #include "minirt.h"
 
-static void	transform_sphere(t_data *data, t_sphere *sphere, float fov_factor,
-				int x, int y);
 static void	vec_to_camera_point(t_data *data, t_vec v, float *x, float *y);
+static void	transform_sphere(t_data *data, t_sphere *sphere, int x, int y);
+static void	transform_cylinder(t_data *data, t_cylinder *cylinder, int x,
+				int y);
+static void	transform_cone(t_data *data, t_cone *cone, int x, int y);
 
 void	transform(t_data *data, int x, int y)
 {
 	t_obj	*obj;
-	float	fov_factor;
 
 	obj = &data->scene.objs[data->obj_onhand];
-	fov_factor = (1.0f / (data->scene.cam.fov * 0.5f));
 	if (obj->type == SPHERE)
-		transform_sphere(data, (t_sphere *)obj->self, fov_factor, x, y);
+		transform_sphere(data, (t_sphere *)obj->self, x, y);
+	else if (obj->type == CYLINDER)
+		transform_cylinder(data, (t_cylinder *)obj->self, x, y);
+	else if (obj->type == CONE)
+		transform_cone(data, (t_cone *)obj->self, x, y);
 }
 
-static void	transform_sphere(t_data *data, t_sphere *sphere, float fov_factor,
-		int x, int y)
+static void	transform_sphere(t_data *data, t_sphere *sphere, int x, int y)
 {
 	float	from_dist;
 	float	to_dist;
@@ -26,27 +29,58 @@ static void	transform_sphere(t_data *data, t_sphere *sphere, float fov_factor,
 	vec_to_camera_point(data, sphere->center, &sphere_x, &sphere_y);
 	from_dist = point_distance(data->from_x, data->from_y, sphere_x, sphere_y);
 	to_dist = point_distance(x, y, sphere_x, sphere_y);
-	if (from_dist > to_dist)
-	{
-		sphere->radius = sphere->radius - point_distance(x, y, data->from_x,
-				l data->from_y) * fov_factor;
-		(void)fov_factor;
-	}
-	else
-		sphere->radius = sphere->radius + point_distance(x, y, data->from_x,
-				data->from_y) * fov_factor;
-	print_sphere(sphere);
+	sphere->radius += ((point_distance(x, y, data->from_x, data->from_y)
+				* (data->scene.cam.half_height) * SCALE) * (2
+				* (from_dist < to_dist) - 1));
+}
+
+static void	transform_cylinder(t_data *data, t_cylinder *cylinder, int x, int y)
+{
+	float	from_dist;
+	float	to_dist;
+	float	cyl_x;
+	float	cyl_y;
+
+	vec_to_camera_point(data, cylinder->center, &cyl_x, &cyl_y);
+	from_dist = point_distance(data->from_x, data->from_y, cyl_x, cyl_y);
+	to_dist = point_distance(x, y, cyl_x, cyl_y);
+	cylinder->radius += fabs((x - data->from_x) * SCALE) * (2
+			* (from_dist < to_dist) - 1);
+	cylinder->height += fabs((y - data->from_y) * SCALE) * (2
+			* (from_dist < to_dist) - 1);
+}
+
+static void	transform_cone(t_data *data, t_cone *cone, int x, int y)
+{
+	float	from_dist;
+	float	to_dist;
+	float	cone_x;
+	float	cone_y;
+
+	vec_to_camera_point(data, cone->center, &cone_x, &cone_y);
+	from_dist = point_distance(data->from_x, data->from_y, cone_x, cone_y);
+	to_dist = point_distance(x, y, cone_x, cone_y);
+	cone->angle += fabs((x - data->from_x) * SCALE) * (2 * (from_dist < to_dist)
+			- 1);
 }
 
 static void	vec_to_camera_point(t_data *data, t_vec v, float *x, float *y)
 {
-	float	fov_factor;
 	float	screen_x;
 	float	screen_y;
+	t_vec	proj_dir;
 
-	fov_factor = (1.0f / (data->scene.cam.fov * 0.5f));
-	screen_x = fov_factor * data->scene.cam.aspect_ratio * (v.x / v.z);
-	screen_y = fov_factor * (v.y / v.z);
-	*x = (screen_x + 1.0f) * 0.5f * data->w;
-	*y = (1.0f - screen_y) * 0.5f * data->h;
+	v = vecsub(v, data->scene.cam.pos);
+	proj_dir.x = dot(v, data->scene.cam.right);
+	proj_dir.y = dot(v, data->scene.cam.up);
+	proj_dir.z = dot(v, data->scene.cam.ori);
+	if (proj_dir.z <= 0)
+	{
+		*x = data->w * 0.5f;
+		*y = data->h * 0.5f;
+	}
+	screen_x = proj_dir.x / (proj_dir.z * data->scene.cam.half_width);
+	screen_y = proj_dir.y / (proj_dir.z * data->scene.cam.half_height);
+	*x = ((screen_x + 1.0f) * 0.5f) * data->w;
+	*y = ((1.0f - screen_y) * 0.5f) * data->h;
 }
