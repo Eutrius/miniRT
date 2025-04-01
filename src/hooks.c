@@ -15,15 +15,19 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 	t_scene	scene;
 	t_hit	hit;
 
-	(void)button;
 	data = param;
 	scene = data->scene;
-	data->obj_onhand = project_ray(&scene, &hit, x, y);
-	if (data->obj_onhand != -1)
+	if (button <= 3)
 	{
-		data->from_x = x;
-		data->from_y = y;
+		data->obj_onhand = project_ray(&scene, &hit, x, y);
+		if (data->obj_onhand != -1)
+		{
+			data->from_x = x;
+			data->from_y = y;
+		}
 	}
+	else if (button <= 5)
+		translate_z(data, button, x, y);
 	return (0);
 }
 
@@ -35,15 +39,12 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 	data = param;
 	if (data->obj_onhand == -1)
 		return (0);
-	if (button == L_MOUSE || button == M_MOUSE || button == R_MOUSE)
-	{
-		if (button == L_MOUSE)
-			translate(data, x - data->from_x, y - data->from_y);
-		if (button == R_MOUSE)
-			transform(data, x, y);
-		data->obj_onhand = -1;
-		render_scene(data);
-	}
+	if (button == L_MOUSE)
+		translate(data, x - data->from_x, y - data->from_y);
+	if (button == R_MOUSE)
+		transform(data, x, y);
+	data->obj_onhand = -1;
+	render_scene(data);
 	return (0);
 }
 void	hooks(t_data *data)
