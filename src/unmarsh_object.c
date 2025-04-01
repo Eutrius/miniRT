@@ -1,4 +1,5 @@
 #include "minirt.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static int	unmarshalsphere(char *str, t_scene *scene)

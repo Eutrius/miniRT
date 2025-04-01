@@ -1,4 +1,5 @@
 #include "minirt.h"
+#include <stdio.h>
 
 static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 {
@@ -22,9 +23,9 @@ int	main(int argc, char **argv)
 
 	data.mlx = mlx_init();
 	mlx_get_screen_size(data.mlx, &data.w, &data.h);
-	init(argc, argv, &data.scene, &data);
 	data.w /= 2;
 	data.h /= 2;
+	init(argc, argv, &data.scene, &data);
 	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
 	hooks(&data);
 	render_scene(&data);

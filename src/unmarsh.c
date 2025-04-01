@@ -1,4 +1,5 @@
 #include "minirt.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static int	unmarshalcamera(char *str, t_scene *scene)
@@ -92,7 +93,7 @@ int	malloc_objs(t_scene *scene, char **spl, int *counts)
 
 	err = 0;
 	i = 0;
-	ft_memset(counts, 0, sizeof(int));
+	ft_memset(counts, 0, sizeof(int) * 2);
 	while (spl[i])
 	{
 		str = spl[i];
@@ -121,6 +122,8 @@ int	unmarshal(char *file, t_scene *scene)
 	i = -1;
 	spl = ft_split(file, '\n');
 	err = malloc_objs(scene, spl, counts);
+	scene->objc = counts[0];
+	scene->lightc = counts[1];
 	while (spl[++i] != 0 && err == 0)
 	{
 		str = spl[i];

@@ -31,8 +31,8 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 						finalhit = hit;
 				i++;
 			}
-			if (finalhit.color != 0)
-				lightman(scene, r, &finalhit);
+			/*if (finalhit.color != 0)*/
+				/*lightman(scene, r, &finalhit);*/
 			pixel(&img, x, y, finalhit.color);
 			x--;
 		}

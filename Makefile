@@ -11,7 +11,7 @@ LIBFT_DIR 	= lib/libft
 LIBFT 		= $(LIBFT_DIR)/libft.a
 MLX_DIR		= lib/mlx
 MLX			= $(MLX_DIR)/libmlx.a
-LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
+LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -g
 
 SRC = src/main.c \
 	  src/hooks.c \
