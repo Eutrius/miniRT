@@ -27,15 +27,15 @@ void	translate_z(t_data *data, int keycode, int x, int y)
 	t_sphere	*to_move;
 	t_hit		hit;
 
-	if (rate == 10)
+	if (rate == SCROLL_RATE)
 	{
 		data->obj_onhand = project_ray(&data->scene, &hit, x, y);
 		if (data->obj_onhand != -1)
 		{
 			obj = data->scene.objs[data->obj_onhand].self;
 			to_move = obj;
-			translate(data, &to_move->center, 0, 0, 20.0f * (2 * (keycode == 4)
-					- 1));
+			translate(data, &to_move->center, 0, 0, NOBJ_SPEED * (2
+					* (keycode == 4) - 1));
 		}
 		rate = 0;
 	}
@@ -54,11 +54,11 @@ void	translate_nobj(t_data *data, int keycode)
 	if (x || y || z)
 	{
 		if (data->nobj_onhand == -1)
-			translate(data, &data->scene.cam.pos, x * 20.0f, y * 20.0f, z
-				* 20.0f);
+			translate(data, &data->scene.cam.pos, x * NOBJ_SPEED, y
+				* NOBJ_SPEED, z * NOBJ_SPEED);
 		else
 			translate(data, &data->scene.light[data->nobj_onhand].pos, x
-				* 20.0f, y * 20.0f, z * 20.0f);
+				* NOBJ_SPEED, y * NOBJ_SPEED, z * NOBJ_SPEED);
 		render_scene(data);
 	}
 }

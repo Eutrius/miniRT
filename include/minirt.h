@@ -10,6 +10,8 @@
 
 # define EPSILON 0.00001f
 # define SCALE 0.05f
+# define SCROLL_RATE 10
+# define NOBJ_SPEED 20.0f
 
 # define L_MOUSE 1
 # define M_MOUSE 2

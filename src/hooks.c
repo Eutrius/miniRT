@@ -3,11 +3,6 @@
 
 static int	input_event(int keycode, t_data *data);
 static int	exit_event(t_data *data);
-// up,down,right,left,s,w, c,l move camera/lights
-// S-M_MOUSE rotate camera
-// R_MOUSE transform object
-// L_MOUSE translate object
-// M_mouse rotate object
 
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
