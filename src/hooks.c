@@ -40,13 +40,14 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 	if (data->obj_onhand == -1)
 		return (0);
 	if (button == L_MOUSE)
-		translate(data, x - data->from_x, y - data->from_y);
+		translate_obj(data, x - data->from_x, y - data->from_y);
 	if (button == R_MOUSE)
 		transform(data, x, y);
 	data->obj_onhand = -1;
 	render_scene(data);
 	return (0);
 }
+
 void	hooks(t_data *data)
 {
 	mlx_loop_hook(data->mlx_win, render_scene, data);
@@ -70,6 +71,11 @@ static int	input_event(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		exit_event(data);
+	else if (keycode == C_KEY)
+		data->nobj_onhand = -1;
+	else if (keycode == L_KEY)
+		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
+	translate_nobj(data, keycode);
 	return (0);
 }
 

@@ -10,9 +10,18 @@
 
 # define EPSILON 0.00001f
 # define SCALE 0.05f
+
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
+# define W_KEY 119
+# define S_KEY 115
+# define C_KEY 99
+# define L_KEY 108
+# define UP_KEY 65362
+# define LEFT_KEY 65361
+# define DOWN_KEY 65364
+# define RIGHT_KEY 65363
 
 typedef struct s_data	t_data;
 
@@ -146,6 +155,7 @@ typedef struct s_data
 	int					obj_onhand;
 	int					from_x;
 	int					from_y;
+	int					nobj_onhand;
 
 }						t_data;
 
@@ -206,7 +216,10 @@ void					print_scene(const t_scene *scene);
 void					hooks(t_data *data);
 void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
-void					translate(t_data *data, int x, int y);
+void					translate(t_data *data, t_vec *vec, float x, float y,
+							float z);
+void					translate_obj(t_data *data, int x, int y);
+void					translate_nobj(t_data *data, int keycode);
 void					translate_z(t_data *data, int button, int x, int y);
 void					transform(t_data *data, int x, int y);
 int						render_scene(void *arg);
