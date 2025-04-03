@@ -18,6 +18,7 @@ static int	unmarshalsphere(char *str, t_scene *scene)
 		if (self->radius < 0.0)
 			err = write(2, "Error: sphere diameter cannot be negative\n", 43);
 		scene->objs[scene->objc - 1].self = self;
+		scene->objs[scene->objc - 1].type = SPHERE;
 		scene->objs[scene->objc - 1].hit = hitsphere;
 		scene->objs[scene->objc - 1].color = getcolor(args[3], &err);
 		scene->objc--;
@@ -45,6 +46,7 @@ static int	unmarshalplane(char *str, t_scene *scene)
 			|| self->normal.z > 1.0)
 			err = write(2, "Error: Normal is not normal :)\n", 32);
 		scene->objs[scene->objc].self = self;
+		scene->objs[scene->objc - 1].type = PLANE;
 		scene->objs[scene->objc].hit = hitplane;
 		scene->objs[scene->objc].color = getcolor(args[3], &err);
 		scene->objc--;
@@ -54,6 +56,7 @@ static int	unmarshalplane(char *str, t_scene *scene)
 	free_matrix(args);
 	return (err);
 }
+
 static int	unmarshalcylinder(char *str, t_scene *scene)
 {
 	char		**args;
@@ -77,6 +80,7 @@ static int	unmarshalcylinder(char *str, t_scene *scene)
 			err = write(2, "Error: cylinder diameter cannot be negative\n", 44);
 		self->radius = ft_atof(args[3]) / 2;
 		scene->objs[scene->objc - 1].self = self;
+		scene->objs[scene->objc - 1].type = CYLINDER;
 		scene->objs[scene->objc - 1].hit = hitcylinder;
 		scene->objs[scene->objc - 1].color = getcolor(args[5], &err);
 		scene->objc--;
@@ -87,11 +91,11 @@ static int	unmarshalcylinder(char *str, t_scene *scene)
 	return (err);
 }
 
-static int unmarshalcone(char *str, t_scene *scene)
+static int	unmarshalcone(char *str, t_scene *scene)
 {
-	char		**args;
-	t_cone		*self;
-	int			err;
+	char	**args;
+	t_cone	*self;
+	int		err;
 
 	err = 0;
 	args = ft_split(str, ' ');
@@ -108,6 +112,7 @@ static int unmarshalcone(char *str, t_scene *scene)
 		if (self->angle < 0.0)
 			err = write(2, "Error: cone angle cannot be negative\n", 38);
 		scene->objs[scene->objc - 1].self = self;
+		scene->objs[scene->objc - 1].type = CONE;
 		scene->objs[scene->objc - 1].hit = hitcone;
 		scene->objs[scene->objc - 1].color = getcolor(args[4], &err);
 		scene->objc--;

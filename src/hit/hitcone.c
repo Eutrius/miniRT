@@ -11,7 +11,7 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 
 	cone = ((t_obj *)self)->self;
 	calculat_coeff(ray, cone, &quad);
-	if (quad.discriminant >= EPSILON)
+	if (quad.discriminant > 0)
 	{
 		if (quad.t1 > quad.t2 && quad.t2 >= EPSILON)
 			hit->t = quad.t2;
@@ -54,7 +54,7 @@ static void	calculat_coeff(t_ray ray, t_cone *cone, t_quadratic *quad)
 	angle = tanf(cone->angle * (M_PI / 180.0f)) * tanf(cone->angle * (M_PI
 				/ 180.0f));
 	quad->a = dot(ray.dir, ray.dir) - (1 + angle) * axis_dir * axis_dir;
-	quad->b = 2.0f * (dot(oc, ray.dir) - (1 + angle) * axis_oc * axis_oc);
+	quad->b = 2.0f * (dot(oc, ray.dir) - (1 + angle) * axis_dir * axis_oc);
 	quad->c = dot(oc, oc) - (1 + angle) * axis_oc * axis_oc;
 	quadratic(quad);
 }

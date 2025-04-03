@@ -9,7 +9,31 @@
 # include <stdlib.h>
 
 # define EPSILON 0.00001f
+# define SCALE 0.05f
+# define SCROLL_RATE 10
+# define NOBJ_SPEED 20.0f
+
+# define L_MOUSE 1
+# define M_MOUSE 2
+# define R_MOUSE 3
+# define W_KEY 119
+# define S_KEY 115
+# define C_KEY 99
+# define L_KEY 108
+# define UP_KEY 65362
+# define LEFT_KEY 65361
+# define DOWN_KEY 65364
+# define RIGHT_KEY 65363
+
 typedef struct s_data	t_data;
+
+typedef enum e_obj_type
+{
+	PLANE,
+	SPHERE,
+	CYLINDER,
+	CONE
+}						t_obj_type;
 
 typedef struct s_vec
 {
@@ -69,6 +93,7 @@ typedef struct s_quadratic
 typedef struct s_object
 {
 	void				*self;
+	t_obj_type			type;
 	int					color;
 	float				rough;
 	char				(*hit)(t_ray ray, t_hit *hit, void *self);
@@ -132,6 +157,7 @@ typedef struct s_data
 	int					obj_onhand;
 	int					from_x;
 	int					from_y;
+	int					nobj_onhand;
 
 }						t_data;
 
@@ -171,6 +197,7 @@ void					quadratic(t_quadratic *quad);
 int						coloradd(int colora, int colorb);
 int						colormult(int color, float multiplier);
 int						clamp(int val);
+float					point_distance(int x1, int y1, int x2, int y2);
 
 // memory
 void					free_matrix(char **mat);
@@ -191,7 +218,13 @@ void					print_scene(const t_scene *scene);
 void					hooks(t_data *data);
 void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
-int						translate(t_data *data, int x, int y);
+void					translate(t_data *data, t_vec *vec, float x, float y,
+							float z);
+void					translate_obj(t_data *data, int x, int y);
+void					translate_nobj(t_data *data, int keycode);
+void					translate_z(t_data *data, int button, int x, int y);
+void					transform(t_data *data, int x, int y);
 int						render_scene(void *arg);
+int						project_ray(t_scene *scene, t_hit *hit, int x, int y);
 
 #endif

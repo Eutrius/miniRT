@@ -25,7 +25,7 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 
 	cyl = ((t_obj *)self)->self;
 	calculat_coeff(ray, cyl, &quad);
-	if (quad.discriminant < EPSILON)
+	if (quad.discriminant < 0)
 		return (0);
 	hit->t = INFINITY;
 	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit, quad.t2))

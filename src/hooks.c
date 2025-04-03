@@ -7,33 +7,22 @@ static int	exit_event(t_data *data);
 int	mouse_press_hook(int button, int x, int y, void *param)
 {
 	t_data	*data;
-	t_ray	ray;
-	int		i;
 	t_scene	scene;
 	t_hit	hit;
-	t_hit	finalhit;
 
-	i = 0;
 	data = param;
 	scene = data->scene;
-	if (button == 1)
+	if (button <= 3)
 	{
-		ray = ray_per_pixel(&scene, &scene.cam, x, y);
-		finalhit.t = 0xffffff;
-		data->obj_onhand = -1;
-		while (i < scene.objc)
+		data->obj_onhand = project_ray(&scene, &hit, x, y);
+		if (data->obj_onhand != -1)
 		{
-			if (scene.objs[i].hit(ray, &hit, &scene.objs[i]))
-				if (hit.t < finalhit.t)
-				{
-					finalhit = hit;
-					data->obj_onhand = i;
-					data->from_x = x;
-					data->from_y = y;
-				}
-			i++;
+			data->from_x = x;
+			data->from_y = y;
 		}
 	}
+	else if (button <= 5)
+		translate_z(data, button, x, y);
 	return (0);
 }
 
@@ -43,18 +32,20 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 
 	(void)param;
 	data = param;
-	if (button == 1)
-	{
-		if (data->obj_onhand == -1)
-			return (0);
-		translate(data, x - data->from_x, y - data->from_y);
-		data->obj_onhand = -1;
-		render_scene(data);
-	}
+	if (data->obj_onhand == -1)
+		return (0);
+	if (button == L_MOUSE)
+		translate_obj(data, x - data->from_x, y - data->from_y);
+	if (button == R_MOUSE)
+		transform(data, x, y);
+	data->obj_onhand = -1;
+	render_scene(data);
 	return (0);
 }
+
 void	hooks(t_data *data)
 {
+	mlx_loop_hook(data->mlx_win, render_scene, data);
 	mlx_key_hook(data->mlx_win, input_event, data);
 	mlx_hook(data->mlx_win, 17, 0, exit_event, data);
 	mlx_hook(data->mlx_win, 4, 1L << 2, mouse_press_hook, data);
@@ -75,6 +66,11 @@ static int	input_event(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		exit_event(data);
+	else if (keycode == C_KEY)
+		data->nobj_onhand = -1;
+	else if (keycode == L_KEY)
+		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
+	translate_nobj(data, keycode);
 	return (0);
 }
 

@@ -35,8 +35,8 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 
 static int	unmarshallight(char *str, t_scene *scene)
 {
-	char		**args;
-	int			err;
+	char	**args;
+	int		err;
 
 	err = 0;
 	args = ft_split(str, ' ');
@@ -46,8 +46,8 @@ static int	unmarshallight(char *str, t_scene *scene)
 		if (!is_float(args[2]))
 			err = (write(2, "Light Ratio not a number ([0.0,1.0])\n", 38));
 		scene->light[scene->lightc - 1].ratio = ft_atof(args[2]);
-		if (scene->light[scene->lightc - 1].ratio < 0.0 ||
-				scene->light[scene->lightc - 1].ratio > 1.0)
+		if (scene->light[scene->lightc - 1].ratio < 0.0
+			|| scene->light[scene->lightc - 1].ratio > 1.0)
 			err = (write(2, "Wrong Light Ratio, ([0.0,1.0])\n", 32));
 		scene->light[scene->lightc].color = getcolor(args[3], &err);
 	}
@@ -83,7 +83,7 @@ static int	unmarshalambient(char *str, t_scene *scene)
 	return (err);
 }
 
-/* in the int array counts the first is the objc and the second is the lightc
+/* in the int array counts the firct is the objc and the second is the lightc
  * norme reasons */
 int	malloc_objs(t_scene *scene, char **spl, int *counts)
 {
@@ -103,11 +103,11 @@ int	malloc_objs(t_scene *scene, char **spl, int *counts)
 			counts[0]++;
 		i++;
 	}
-	scene->objs = ft_calloc(sizeof(t_obj) , (counts[0] + 1));
-	scene->light = ft_calloc(sizeof(t_light) , (counts[1] + 1));
+	scene->objs = ft_calloc(sizeof(t_obj), (counts[0] + 1));
+	scene->light = ft_calloc(sizeof(t_light), (counts[1] + 1));
 	if (scene->objs == 0 || scene->light == 0)
 		err = write(2, "Error: Malloc on objects or lights\n", 36);
-	return err;
+	return (err);
 }
 
 int	unmarshal(char *file, t_scene *scene)

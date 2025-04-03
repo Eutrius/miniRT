@@ -1,5 +1,4 @@
 #include "minirt.h"
-#include <stdio.h>
 
 static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 {
@@ -15,6 +14,7 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 	free(filestr);
 	set_camera_axis(scene);
 	set_viewport(scene, scene->data->w, scene->data->h);
+	data->obj_onhand = -1;
 }
 
 int	main(int argc, char **argv)

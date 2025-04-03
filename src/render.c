@@ -6,10 +6,7 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 	t_img	img;
 	int		y;
 	int		x;
-	t_ray	r;
 	t_hit	hit;
-	t_hit	finalhit;
-	int		i;
 
 	img.img = mlx_new_image(mlx, w, h);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
@@ -20,26 +17,42 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 		x = w;
 		while (x >= 0)
 		{
-			i = 0;
-			finalhit.color = 0;
-			finalhit.t = 0xffffff;
-			r = ray_per_pixel(&scene, &scene.cam, x, y);
-			while (i < scene.objc)
-			{
-				if (scene.objs[i].hit(r, &hit, &scene.objs[i]))
-					if (hit.t < finalhit.t)
-						finalhit = hit;
-				i++;
-			}
+			project_ray(&scene, &hit, x, y);
 			/*if (finalhit.color != 0)*/
-				/*lightman(scene, r, &finalhit);*/
-			pixel(&img, x, y, finalhit.color);
+			/*lightman(scene, r, &finalhit);*/
+			pixel(&img, x, y, hit.color);
 			x--;
 		}
 		y--;
 	}
 	printf("done rendering\n");
 	return (img.img);
+}
+
+int	project_ray(t_scene *scene, t_hit *hit, int x, int y)
+{
+	t_ray	ray;
+	t_hit	final_hit;
+	int		hit_index;
+	int		i;
+
+	i = 0;
+	final_hit.color = 0;
+	final_hit.t = 0xffffff;
+	hit_index = -1;
+	ray = ray_per_pixel(scene, &scene->cam, x, y);
+	while (i < scene->objc)
+	{
+		if (scene->objs[i].hit(ray, hit, &scene->objs[i]))
+			if (hit->t < final_hit.t)
+			{
+				final_hit = *hit;
+				hit_index = i;
+			}
+		i++;
+	}
+	*hit = final_hit;
+	return (hit_index);
 }
 
 int	clamp(int val)
