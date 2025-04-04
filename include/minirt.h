@@ -51,7 +51,7 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	t_vec				pos;
-	t_vec				ori;
+	t_vec				forward;
 	t_vec				up;
 	t_vec				right;
 	float				aspect_ratio;
@@ -108,22 +108,22 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_vec				center;
-	t_vec				normal;
+	t_vec				axis;
 }						t_plane;
 
 typedef struct s_cylinder
 {
 	t_vec				center;
+	t_vec				axis;
 	float				radius;
 	float				height;
-	t_vec				axis;
 }						t_cylinder;
 
 typedef struct s_cone
 {
 	t_vec				center;
-	float				angle;
 	t_vec				axis;
+	float				angle;
 }						t_cone;
 
 typedef struct s_scene
@@ -158,6 +158,7 @@ typedef struct s_data
 	int					from_x;
 	int					from_y;
 	int					nobj_onhand;
+	int					rot_cam;
 
 }						t_data;
 
@@ -226,5 +227,7 @@ void					translate_z(t_data *data, int button, int x, int y);
 void					transform(t_data *data, int x, int y);
 int						render_scene(void *arg);
 int						project_ray(t_scene *scene, t_hit *hit, int x, int y);
+void					rotate_obj(t_data *data, int x, int y);
+void					rotate_camera(t_data *data, int x, int y);
 
 #endif

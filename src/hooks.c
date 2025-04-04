@@ -13,16 +13,11 @@ int	mouse_press_hook(int button, int x, int y, void *param)
 	data = param;
 	scene = data->scene;
 	if (button <= 3)
-	{
 		data->obj_onhand = project_ray(&scene, &hit, x, y);
-		if (data->obj_onhand != -1)
-		{
-			data->from_x = x;
-			data->from_y = y;
-		}
-	}
 	else if (button <= 5)
 		translate_z(data, button, x, y);
+	data->from_x = x;
+	data->from_y = y;
 	return (0);
 }
 
@@ -32,10 +27,18 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 
 	(void)param;
 	data = param;
+	if (data->rot_cam && button == M_MOUSE)
+	{
+		rotate_camera(data, x - data->from_x, y - data->from_y);
+		data->obj_onhand = -1;
+		render_scene(data);
+	}
 	if (data->obj_onhand == -1)
 		return (0);
 	if (button == L_MOUSE)
 		translate_obj(data, x - data->from_x, y - data->from_y);
+	if (button == M_MOUSE)
+		rotate_obj(data, x - data->from_x, y - data->from_y);
 	if (button == R_MOUSE)
 		transform(data, x, y);
 	data->obj_onhand = -1;
@@ -70,6 +73,11 @@ static int	input_event(int keycode, t_data *data)
 		data->nobj_onhand = -1;
 	else if (keycode == L_KEY)
 		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
+	else if (keycode == 118)
+	{
+		data->rot_cam = (data->rot_cam == 0);
+		printf("toggle rotate camera %i\n", data->rot_cam);
+	}
 	translate_nobj(data, keycode);
 	return (0);
 }

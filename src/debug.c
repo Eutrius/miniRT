@@ -17,7 +17,7 @@ void	print_camera(const t_cam *cam)
 	printf("CAMERA: pos: ");
 	print_vec(&cam->pos);
 	printf("CAMERA: ori: ");
-	print_vec(&cam->ori);
+	print_vec(&cam->forward);
 	printf("CAMERA: fov: %f\n", cam->fov);
 }
 
@@ -61,7 +61,7 @@ void	print_plane(const t_plane *plane)
 	printf("PLANE: coord: ");
 	print_vec(&plane->center);
 	printf("PLANE: normal: ");
-	print_vec(&plane->normal);
+	print_vec(&plane->axis);
 }
 
 void	print_cylinder(const t_cylinder *cylinder)

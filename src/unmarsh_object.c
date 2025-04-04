@@ -40,10 +40,10 @@ static int	unmarshalplane(char *str, t_scene *scene)
 	{
 		self = ft_calloc(sizeof(t_plane), 1);
 		self->center = getcoords(args[1], &err);
-		self->normal = getcoords(args[2], &err);
-		if (self->normal.y < -1.0 || self->normal.y > 1.0 || self->normal.x <
-			-1.0 || self->normal.x > 1.0 || self->normal.z < -1.0
-			|| self->normal.z > 1.0)
+		self->axis = getcoords(args[2], &err);
+		if (self->axis.y < -1.0 || self->axis.y > 1.0 || self->axis.x <
+			-1.0 || self->axis.x > 1.0 || self->axis.z < -1.0
+			|| self->axis.z > 1.0)
 			err = write(2, "Error: Normal is not normal :)\n", 32);
 		scene->objs[scene->objc - 1].self = self;
 		scene->objs[scene->objc - 1].type = PLANE;

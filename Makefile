@@ -25,6 +25,7 @@ SRC = src/main.c \
 	  src/validate.c \
 	  src/translate.c \
 	  src/transform.c \
+	  src/rotate.c \
 	  src/cameraman.c \
 	  src/unmarsh_utils.c \
 	  src/unmarsh.c \

@@ -6,17 +6,15 @@ void	translate(t_data *data, t_vec *vec, float x, float y, float z)
 				* data->scene.cam.half_height * SCALE));
 	*vec = vecsum(*vec, scalar(data->scene.cam.up, -y
 				* data->scene.cam.half_height * SCALE));
-	*vec = vecsum(*vec, scalar(data->scene.cam.ori, z
+	*vec = vecsum(*vec, scalar(data->scene.cam.forward, z
 				* data->scene.cam.half_height * SCALE));
 }
 
 void	translate_obj(t_data *data, int x, int y)
 {
-	void		*obj;
 	t_sphere	*to_move;
 
-	obj = data->scene.objs[data->obj_onhand].self;
-	to_move = obj;
+	to_move = data->scene.objs[data->obj_onhand].self;
 	translate(data, &to_move->center, x, y, 0);
 }
 
