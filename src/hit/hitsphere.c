@@ -23,14 +23,14 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 
 	sphere = ((t_obj *)self)->self;
 	calculat_coeff(ray, sphere, &quad);
-	if (quad.discriminant > 0)
+	if (quad.discriminant >= 0)
 	{
 		if (quad.t1 > quad.t2 && quad.t2 >= EPSILON)
 			hit->t = quad.t2;
 		else if (quad.t1 >= EPSILON)
 			hit->t = quad.t1;
 		else
-			return (0);
+			hit->t = quad.t2;
 		hit_point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = normalize(vecsub(hit_point, sphere->center));
 		hit->color = ((t_obj *)self)->color;

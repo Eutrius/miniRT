@@ -10,7 +10,7 @@ t_vec	rotate(t_vec v, t_vec axis, float angle)
 	sin_angle = sin(angle);
 	result = vecsum(scalar(v, cos_angle), scalar(cross(axis, v), sin_angle));
 	result = vecsum(result, scalar(axis, dot(axis, v) * (1.0f - cos_angle)));
-	return (result);
+	return (normalize(result));
 }
 
 t_vec	calculate_axis(t_data *data, int x, int y)
@@ -46,14 +46,13 @@ void	rotate_camera(t_data *data, int x, int y)
 {
 	float	dx;
 	float	dy;
-	t_vec	new_forward;
-	t_cam	camera;
+	t_cam	*camera;
 
 	dx = x * 0.001f;
 	dy = y * 0.001f;
-	camera = data->scene.cam;
-	new_forward = rotate(camera.forward, camera.right, -dy);
-	new_forward = rotate(new_forward, camera.up, -dx);
-	data->scene.cam.forward = normalize(new_forward);
+	camera = &data->scene.cam;
+	camera->forward = rotate(camera->forward, camera->right, -dy);
+	camera->up = rotate(camera->up, camera->right, -dy);
+	camera->forward = rotate(camera->forward, camera->up, -dx);
 	set_camera_axis(&data->scene);
 }

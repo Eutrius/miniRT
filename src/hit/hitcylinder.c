@@ -28,8 +28,9 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	if (quad.discriminant < 0)
 		return (0);
 	hit->t = INFINITY;
-	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit, quad.t2))
-		|| hit_cap(ray, hit, cyl, vecsum) || hit_cap(ray, hit, cyl, vecsub))
+	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit,
+				quad.t2)) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit,
+			cyl, vecsub))
 	{
 		hit->color = ((t_obj *)self)->color;
 		return (1);
@@ -96,10 +97,10 @@ static int	hit_cap(t_ray ray, t_hit *hit, t_cylinder *cyl, t_vec (*f)(t_vec,
 			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
 			if (veclen(vecsub(cap_hit_point, center)) <= cyl->radius)
 			{
-				if (cap_t < hit->t)
 				{
-					hit->t = cap_t;
-					hit->normal = scalar(cyl->axis, -1);
+					if (cap_t < hit->t)
+						hit->t = cap_t;
+					hit->normal = scalar(cyl->axis, 2 * (f == vecsub) - 1);
 					return (1);
 				}
 			}
