@@ -55,24 +55,20 @@ void	hooks(t_data *data)
 	mlx_hook(data->mlx_win, 5, 1L << 3, mouse_release_hook, data);
 }
 
-int	render_scene(void *arg)
-{
-	t_data	*data;
-
-	data = arg;
-	mlx_put_image_to_window(data->mlx, data->mlx_win, render(data->scene,
-			data->w, data->h, data->mlx), 0, 0);
-	return (0);
-}
-
 static int	input_event(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		exit_event(data);
 	else if (keycode == C_KEY)
+	{
 		data->nobj_onhand = -1;
+		printf("select camera  to move\n");
+	}
 	else if (keycode == L_KEY)
+	{
 		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
+		printf("selct light %i to move\n", data->nobj_onhand);
+	}
 	else if (keycode == 118)
 	{
 		data->rot_cam = (data->rot_cam == 0);

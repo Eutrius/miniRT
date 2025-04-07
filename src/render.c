@@ -1,6 +1,16 @@
 #include "minirt.h"
 #include <stdio.h>
 
+int	render_scene(void *arg)
+{
+	t_data	*data;
+
+	data = arg;
+	mlx_put_image_to_window(data->mlx, data->mlx_win, render(data->scene,
+			data->w, data->h, data->mlx), 0, 0);
+	return (0);
+}
+
 void	*render(t_scene scene, int w, int h, void *mlx)
 {
 	t_img	img;

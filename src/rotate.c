@@ -1,5 +1,7 @@
 #include "minirt.h"
 
+static t_vec	calculate_axis(t_data *data, int x, int y);
+
 t_vec	rotate(t_vec v, t_vec axis, float angle)
 {
 	float	cos_angle;
@@ -11,19 +13,6 @@ t_vec	rotate(t_vec v, t_vec axis, float angle)
 	result = vecsum(scalar(v, cos_angle), scalar(cross(axis, v), sin_angle));
 	result = vecsum(result, scalar(axis, dot(axis, v) * (1.0f - cos_angle)));
 	return (normalize(result));
-}
-
-t_vec	calculate_axis(t_data *data, int x, int y)
-{
-	t_vec	rotation_vec;
-	t_cam	*camera;
-	t_vec	axis;
-
-	camera = &data->scene.cam;
-	rotation_vec = vecsum(scalar(camera->right, -x), scalar(camera->up, y));
-	axis = cross(camera->forward, rotation_vec);
-	axis = normalize(axis);
-	return (axis);
 }
 
 void	rotate_obj(t_data *data, int x, int y)
@@ -55,4 +44,17 @@ void	rotate_camera(t_data *data, int x, int y)
 	camera->up = rotate(camera->up, camera->right, -dy);
 	camera->forward = rotate(camera->forward, camera->up, -dx);
 	set_camera_axis(&data->scene);
+}
+
+static t_vec	calculate_axis(t_data *data, int x, int y)
+{
+	t_vec	rotation_vec;
+	t_cam	*camera;
+	t_vec	axis;
+
+	camera = &data->scene.cam;
+	rotation_vec = vecsum(scalar(camera->right, -x), scalar(camera->up, y));
+	axis = cross(camera->forward, rotation_vec);
+	axis = normalize(axis);
+	return (axis);
 }

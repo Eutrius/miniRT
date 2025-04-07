@@ -19,21 +19,20 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 {
 	t_sphere	*sphere;
 	t_quadratic	quad;
-	t_vec		hit_point;
 
 	sphere = ((t_obj *)self)->self;
 	calculat_coeff(ray, sphere, &quad);
 	if (quad.discriminant >= 0)
 	{
-		if (quad.t1 > quad.t2 && quad.t2 >= EPSILON)
-			hit->t = quad.t2;
-		else if (quad.t1 >= EPSILON)
+		if (quad.t1 >= EPSILON && (quad.t1 < quad.t2 || quad.t2 < EPSILON))
 			hit->t = quad.t1;
-		else
+		else if (quad.t2 >= EPSILON)
 			hit->t = quad.t2;
-		hit_point = vecsum(ray.start, scalar(ray.dir, hit->t));
-		hit->normal = normalize(vecsub(hit_point, sphere->center));
-		hit->color = ((t_obj *)self)->color;
+		else
+			return (0);
+		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
+		hit->normal = normalize(vecsub(hit->point, sphere->center));
+		checkerboard_sp(hit, sphere, ((t_obj *)self)->color);
 		return (1);
 	}
 	return (0);

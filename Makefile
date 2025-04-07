@@ -22,6 +22,11 @@ SRC = src/main.c \
 	  src/hit/hitsphere.c \
 	  src/hit/hitcylinder.c \
 	  src/hit/hitcone.c \
+	  src/checkerboard/checkerboard_pl.c \
+	  src/checkerboard/checkerboard_sp.c \
+	  src/checkerboard/checkerboard_cy.c \
+	  src/checkerboard/checkerboard_co.c \
+	  src/checkerboard/utils.c \
 	  src/validate.c \
 	  src/translate.c \
 	  src/transform.c \

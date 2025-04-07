@@ -29,9 +29,9 @@ char	hitplane(t_ray ray, t_hit *hit, void *self)
 			hit->normal = plane->axis;
 		else
 			hit->normal = scalar(plane->axis, -1);
-		hit->color = ((t_obj *)self)->color;
-		if (hit->t >= EPSILON)
-			return (1);
+		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
+		checkerboard_pl(hit, plane, ((t_obj *)self)->color);
+		return (1);
 	}
 	return (0);
 }
