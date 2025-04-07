@@ -59,12 +59,12 @@ static int	input_event(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		exit_event(data);
-	else if (keycode == C_KEY)
+	else if (keycode == C_KEY && data->nobj_onhand != -1)
 	{
 		data->nobj_onhand = -1;
 		printf("select camera  to move\n");
 	}
-	else if (keycode == L_KEY)
+	else if (keycode == L_KEY && data->scene.lightc > 0)
 	{
 		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
 		printf("selct light %i to move\n", data->nobj_onhand);
