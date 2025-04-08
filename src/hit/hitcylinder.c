@@ -28,10 +28,11 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 	if (quad.discriminant < 0)
 		return (0);
 	hit->t = INFINITY;
-	if ((hit_body(ray, cyl, hit, quad.t1) || hit_body(ray, cyl, hit, quad.t2))
-		|| hit_cap(ray, hit, cyl, vecsum) || hit_cap(ray, hit, cyl, vecsub))
+	if (hit_body(ray, cyl, hit, quad.t1) | hit_body(ray, cyl, hit,
+			quad.t2) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit, cyl,
+			vecsub))
 	{
-		hit->color = ((t_obj *)self)->color;
+		checkerboard_cy(hit, cyl, ((t_obj *)self)->color);
 		return (1);
 	}
 	return (0);
@@ -69,10 +70,15 @@ static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
 		center_proj = dot(center_point, cyl->axis);
 		if (center_proj >= -cyl->height / 2 && center_proj <= cyl->height / 2)
 		{
-			hit->t = t;
-			axis_point = vecsum(cyl->center, scalar(cyl->axis, center_proj));
-			hit->normal = normalize(vecsub(hit_point, axis_point));
-			return (1);
+			if (t < hit->t)
+			{
+				hit->t = t;
+				hit->point = hit_point;
+				axis_point = vecsum(cyl->center, scalar(cyl->axis,
+							center_proj));
+				hit->normal = normalize(vecsub(hit_point, axis_point));
+				return (1);
+			}
 		}
 	}
 	return (0);
@@ -81,27 +87,27 @@ static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
 static int	hit_cap(t_ray ray, t_hit *hit, t_cylinder *cyl, t_vec (*f)(t_vec,
 			t_vec))
 {
-	t_vec	cap_hit_point;
+	t_vec	hit_point;
 	t_vec	center;
 	float	denom;
-	float	cap_t;
+	float	t;
 
 	center = f(cyl->center, scalar(cyl->axis, cyl->height / 2));
 	denom = dot(ray.dir, cyl->axis);
-	if (fabs(denom) >= EPSILON)
+	if (fabs(denom) < EPSILON)
+		return (0);
+	t = dot(vecsub(center, ray.start), cyl->axis) / denom;
+	if (t >= EPSILON)
 	{
-		cap_t = dot(vecsub(center, ray.start), cyl->axis) / denom;
-		if (cap_t >= EPSILON)
+		hit_point = vecsum(ray.start, scalar(ray.dir, t));
+		if (veclen(vecsub(hit_point, center)) <= cyl->radius)
 		{
-			cap_hit_point = vecsum(ray.start, scalar(ray.dir, cap_t));
-			if (veclen(vecsub(cap_hit_point, center)) <= cyl->radius)
+			if (t < hit->t)
 			{
-				if (cap_t < hit->t)
-				{
-					hit->t = cap_t;
-					hit->normal = scalar(cyl->axis, -1);
-					return (1);
-				}
+				hit->point = hit_point;
+				hit->t = t;
+				hit->normal = scalar(cyl->axis, 2 * (f == vecsub) - 1);
+				return (1);
 			}
 		}
 	}

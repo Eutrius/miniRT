@@ -15,6 +15,8 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 	set_camera_axis(scene);
 	set_viewport(scene, scene->data->w, scene->data->h);
 	data->obj_onhand = -1;
+	data->nobj_onhand = -1;
+	data->rot_cam = 0;
 }
 
 int	main(int argc, char **argv)

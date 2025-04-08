@@ -73,7 +73,7 @@ static void	vec_to_camera_point(t_data *data, t_vec v, float *x, float *y)
 	v = vecsub(v, data->scene.cam.pos);
 	proj_dir.x = dot(v, data->scene.cam.right);
 	proj_dir.y = dot(v, data->scene.cam.up);
-	proj_dir.z = dot(v, data->scene.cam.ori);
+	proj_dir.z = dot(v, data->scene.cam.forward);
 	if (proj_dir.z <= 0)
 	{
 		*x = data->w * 0.5f;

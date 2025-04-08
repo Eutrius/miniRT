@@ -15,10 +15,10 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	if (args && args[1] && args[2] && args[3])
 	{
 		scene->cam.pos = getcoords(args[1], &err);
-		scene->cam.ori = getcoords(args[2], &err);
-		if (scene->cam.ori.x < -1.0 || scene->cam.ori.x > 1.0
-			|| scene->cam.ori.y < -1.0 || scene->cam.ori.y > 1.0
-			|| scene->cam.ori.z < -1.0 || scene->cam.ori.z > 1.0)
+		scene->cam.forward = getcoords(args[2], &err);
+		if (scene->cam.forward.x < -1.0 || scene->cam.forward.x > 1.0
+			|| scene->cam.forward.y < -1.0 || scene->cam.forward.y > 1.0
+			|| scene->cam.forward.z < -1.0 || scene->cam.forward.z > 1.0)
 			err = write(2,
 					"Error: Wrong camera orientation [-1,1][-1,1][-1,1]\n", 51);
 		if (!is_float(args[3]))

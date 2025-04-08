@@ -19,19 +19,19 @@ char	hitplane(t_ray ray, t_hit *hit, void *self)
 	float	denom;
 
 	plane = ((t_obj *)self)->self;
-	denom = dot(plane->normal, ray.dir);
+	denom = dot(plane->axis, ray.dir);
 	if (fabs(denom) >= EPSILON)
 	{
-		hit->t = dot(vecsub(plane->center, ray.start), plane->normal) / denom;
+		hit->t = dot(vecsub(plane->center, ray.start), plane->axis) / denom;
 		if (hit->t < EPSILON)
 			return (0);
 		if (denom < 0)
-			hit->normal = plane->normal;
+			hit->normal = plane->axis;
 		else
-			hit->normal = scalar(plane->normal, -1);
-		hit->color = ((t_obj *)self)->color;
-		if (hit->t >= EPSILON)
-			return (1);
+			hit->normal = scalar(plane->axis, -1);
+		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
+		checkerboard_pl(hit, plane, ((t_obj *)self)->color);
+		return (1);
 	}
 	return (0);
 }

@@ -28,7 +28,7 @@ t_ray	ray_per_pixel(t_scene *scene, t_cam *camera, int x, int y)
 
 	deltax = (2.0f * x / scene->data->w - 1.0f) * camera->half_width;
 	deltay = (1.0f - 2.0f * y / scene->data->h) * camera->half_height;
-	pixel_pos = vecsum(vecsum(camera->pos, camera->ori),
+	pixel_pos = vecsum(vecsum(camera->pos, camera->forward),
 			vecsum(scalar(camera->right, deltax), scalar(camera->up, deltay)));
 	ret = ray(camera->pos, normalize(vecsub(pixel_pos, camera->pos)));
 	return (ret);

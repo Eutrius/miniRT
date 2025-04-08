@@ -51,7 +51,7 @@ typedef struct s_ambient
 typedef struct s_camera
 {
 	t_vec				pos;
-	t_vec				ori;
+	t_vec				forward;
 	t_vec				up;
 	t_vec				right;
 	float				aspect_ratio;
@@ -72,6 +72,7 @@ typedef struct s_hit
 	t_vec				normal;
 	int					color;
 	float				t;
+	t_vec				point;
 }						t_hit;
 
 typedef struct s_ray
@@ -108,22 +109,22 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_vec				center;
-	t_vec				normal;
+	t_vec				axis;
 }						t_plane;
 
 typedef struct s_cylinder
 {
 	t_vec				center;
+	t_vec				axis;
 	float				radius;
 	float				height;
-	t_vec				axis;
 }						t_cylinder;
 
 typedef struct s_cone
 {
 	t_vec				center;
-	float				angle;
 	t_vec				axis;
+	float				angle;
 }						t_cone;
 
 typedef struct s_scene
@@ -158,6 +159,7 @@ typedef struct s_data
 	int					from_x;
 	int					from_y;
 	int					nobj_onhand;
+	int					rot_cam;
 
 }						t_data;
 
@@ -218,13 +220,23 @@ void					print_scene(const t_scene *scene);
 void					hooks(t_data *data);
 void					set_camera_axis(t_scene *scene);
 void					set_viewport(t_scene *scene, int w, int h);
-void					translate(t_data *data, t_vec *vec, float x, float y,
-							float z);
 void					translate_obj(t_data *data, int x, int y);
 void					translate_nobj(t_data *data, int keycode);
 void					translate_z(t_data *data, int button, int x, int y);
 void					transform(t_data *data, int x, int y);
 int						render_scene(void *arg);
 int						project_ray(t_scene *scene, t_hit *hit, int x, int y);
+void					rotate_obj(t_data *data, int x, int y);
+void					rotate_camera(t_data *data, int x, int y);
+
+// checkerboard
+
+void					checkerboard_sp(t_hit *hit, t_sphere *sphere,
+							int color);
+void					checkerboard_pl(t_hit *hit, t_plane *plane, int color);
+void					checkerboard_co(t_hit *hit, t_cone *cone, int color);
+void					checkerboard_cy(t_hit *hit, t_cylinder *cyl, int color);
+t_vec					get_orthogonal_vector(t_vec axis);
+int						set_color(float u, float v, int color);
 
 #endif

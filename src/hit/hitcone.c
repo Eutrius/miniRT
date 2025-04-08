@@ -7,25 +7,25 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 {
 	t_cone		*cone;
 	t_quadratic	quad;
-	t_vec		hit_point;
 
 	cone = ((t_obj *)self)->self;
 	calculat_coeff(ray, cone, &quad);
-	if (quad.discriminant > 0)
+	if (quad.discriminant >= 0)
 	{
-		if (quad.t1 > quad.t2 && quad.t2 >= EPSILON)
-			hit->t = quad.t2;
-		else if (quad.t1 >= EPSILON)
+		if (quad.t1 >= EPSILON && (quad.t1 < quad.t2 || quad.t2 < EPSILON))
 			hit->t = quad.t1;
+		else if (quad.t2 >= EPSILON)
+			hit->t = quad.t2;
 		else
 			return (0);
-		hit_point = vecsum(ray.start, scalar(ray.dir, hit->t));
-		hit->normal = calculate_normal(hit_point, cone);
-		hit->color = ((t_obj *)self)->color;
+		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
+		hit->normal = calculate_normal(hit->point, cone);
+		checkerboard_co(hit, cone, ((t_obj *)self)->color);
 		return (1);
 	}
 	return (0);
 }
+
 static t_vec	calculate_normal(t_vec hit_point, t_cone *cone)
 {
 	float	m;
