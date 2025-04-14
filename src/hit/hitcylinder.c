@@ -77,6 +77,7 @@ static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
 				axis_point = vecsum(cyl->center, scalar(cyl->axis,
 							center_proj));
 				hit->normal = normalize(vecsub(hit_point, axis_point));
+				bump(hit);
 				return (1);
 			}
 		}

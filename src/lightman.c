@@ -54,7 +54,7 @@ void lightman(t_scene scene, t_ray r, t_hit *hit)
     t_ray lightray;
     t_light curr_light;
     char in_shadow;
-    
+
     l = -1;
     lightray.start = vecsum(r.start, scalar(r.dir, hit->t - 0.0001f));
     while (++l < scene.lightc)

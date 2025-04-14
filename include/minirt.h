@@ -170,6 +170,7 @@ typedef struct s_data
 void					pixel(t_img *data, int x, int y, int color);
 void					*render(t_scene scene, int w, int h, void *mlx);
 void					lightman(t_scene scene, t_ray r, t_hit *hit);
+void					bump(t_hit *hit);
 
 /*RAYTRACING*/
 char					hitsphere(t_ray ray, t_hit *hit, void *self);

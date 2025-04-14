@@ -32,6 +32,7 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 			return (0);
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = normalize(vecsub(hit->point, sphere->center));
+		bump(hit);
 		checkerboard_sp(hit, sphere, ((t_obj *)self)->color);
 		return (1);
 	}
