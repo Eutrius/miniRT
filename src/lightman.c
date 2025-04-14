@@ -63,10 +63,14 @@ void lightman(t_scene scene, t_ray r, t_hit *hit)
         in_shadow = 0;
         curr_light = scene.light[l];
         lightray.dir = normalize(vecsub(curr_light.pos, lightray.start));
-        while (++i < scene.objc || in_shadow == 0)
+        while (++i < scene.objc && in_shadow == 0)
+        {
             if (scene.objs[i].hit(lightray, &ph, &scene.objs[i]))
+            {
                 if (is_hit_closer_than_light(lightray, ph, curr_light))
                     in_shadow = 1;
+            }
+        }
         if (!in_shadow)
         {
             diffuse(hit, curr_light, lightray);

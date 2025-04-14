@@ -39,7 +39,8 @@ SRC = src/main.c \
 	  src/debug.c \
 	  src/render.c \
 	  src/mlx.c \
-	  src/lightman.c
+	  src/lightman.c \
+	  src/bump.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

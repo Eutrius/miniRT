@@ -12,9 +12,9 @@ void bump(t_hit *hit)
 {
     t_vec perturbation;
 
-    perturbation.x = ((float)rand() / RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
-    perturbation.y = ((float)rand() / RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
-    perturbation.z = ((float)rand() / RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
+    perturbation.x = ((float)rand() / (float)RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
+    perturbation.y = ((float)rand() / (float)RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
+    perturbation.z = ((float)rand() / (float)RAND_MAX - 0.5f) * 2.0f * ROUGHNESS;
     hit->normal = vecsum(hit->normal, perturbation);
     hit->normal = normalize(hit->normal);
 }
