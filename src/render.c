@@ -28,8 +28,8 @@ void	*render(t_scene scene, int w, int h, void *mlx)
 		while (x >= 0)
 		{
 			project_ray(&scene, &hit, x, y);
-			/*if (finalhit.color != 0)*/
-			/*lightman(scene, r, &finalhit);*/
+			if (hit.color != 0)
+				lightman(scene, ray_per_pixel(&scene, &scene.cam, x, y), &hit);
 			pixel(&img, x, y, hit.color);
 			x--;
 		}

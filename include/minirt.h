@@ -24,6 +24,8 @@
 # define LEFT_KEY 65361
 # define DOWN_KEY 65364
 # define RIGHT_KEY 65363
+# define SHINYNESS 0.5f
+# define ROUGHNESS 0.5f
 
 typedef struct s_data	t_data;
 
