@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:41:55 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 19:00:43 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_vec	vecsum(t_vec a, t_vec b)
@@ -28,24 +40,4 @@ float	veclen(t_vec a)
 float	dot(t_vec a, t_vec b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
-t_vec	scalar(t_vec a, float b)
-{
-	t_vec	r;
-
-	r.x = a.x * b;
-	r.y = a.y * b;
-	r.z = a.z * b;
-	return (r);
-}
-
-t_vec	cross(t_vec a, t_vec b)
-{
-	t_vec	r;
-
-	r.x = a.y * b.z - a.z * b.y;
-	r.y = a.z * b.x - a.x * b.z;
-	r.z = a.x * b.y - a.y * b.x;
-	return (r);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   math2.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:41:57 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 19:00:55 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_vec	normalize(t_vec v)
@@ -30,4 +42,24 @@ float	point_distance(int x1, int y1, int x2, int y2)
 	x = x1 - x2;
 	y = y1 - y2;
 	return (sqrt(x * x + y * y));
+}
+
+t_vec	scalar(t_vec a, float b)
+{
+	t_vec	r;
+
+	r.x = a.x * b;
+	r.y = a.y * b;
+	r.z = a.z * b;
+	return (r);
+}
+
+t_vec	cross(t_vec a, t_vec b)
+{
+	t_vec	r;
+
+	r.x = a.y * b.z - a.z * b.y;
+	r.y = a.z * b.x - a.x * b.z;
+	r.z = a.x * b.y - a.y * b.x;
+	return (r);
 }

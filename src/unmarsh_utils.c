@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unmarsh_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:42:15 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 19:32:54 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-t_vec getcoords(char *str, int *err)
+t_vec	getcoords(char *str, int *err)
 {
 	t_vec	ret;
 	char	**coord;
@@ -18,10 +30,10 @@ t_vec getcoords(char *str, int *err)
 
 int	getcolor(char *str, int *err)
 {
-	unsigned int ret;
-	int			cur;
-	char	**rgb;
-	int		i;
+	unsigned int	ret;
+	int				cur;
+	char			**rgb;
+	int				i;
 
 	i = 0;
 	ret = 0;
@@ -30,7 +42,7 @@ int	getcolor(char *str, int *err)
 	{
 		cur = ft_atof(rgb[i]);
 		if (!is_float(rgb[i]) || cur > 255 || cur < 0)
-			*err = write(2, "Error: Wrong Color format, (0-255,0-255,0-255)\n", 48);
+			*err = write(2, "Error: Wrong format, (0-255,0-255,0-255)\n", 48);
 		ret = ret << 8;
 		ret = cur | ret;
 		i++;

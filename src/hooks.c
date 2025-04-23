@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:41:45 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 19:35:16 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include <X11/keysym.h>
 
@@ -80,6 +92,10 @@ static int	input_event(int keycode, t_data *data)
 
 static int	exit_event(t_data *data)
 {
+	free_scene(&data->scene);
+	mlx_destroy_window(data->mlx, data->mlx_win);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
 	(void)data;
 	exit(EXIT_SUCCESS);
 }

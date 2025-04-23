@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hitsphere.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:41:27 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 18:42:35 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 /**
@@ -32,8 +44,8 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 			return (0);
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = normalize(vecsub(hit->point, sphere->center));
-		bump(hit);
 		checkerboard_sp(hit, sphere, ((t_obj *)self)->color);
+		bump(hit);
 		return (1);
 	}
 	return (0);

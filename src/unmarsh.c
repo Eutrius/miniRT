@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unmarsh.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/23 18:42:17 by lmoricon          #+#    #+#             */
+/*   Updated: 2025/04/23 18:59:55 by lmoricon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -16,9 +28,7 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	{
 		scene->cam.pos = getcoords(args[1], &err);
 		scene->cam.forward = getcoords(args[2], &err);
-		if (scene->cam.forward.x < -1.0 || scene->cam.forward.x > 1.0
-			|| scene->cam.forward.y < -1.0 || scene->cam.forward.y > 1.0
-			|| scene->cam.forward.z < -1.0 || scene->cam.forward.z > 1.0)
+		if (is_normal(scene->cam.forward) == 0)
 			err = write(2,
 					"Error: Wrong camera orientation [-1,1][-1,1][-1,1]\n", 51);
 		if (!is_float(args[3]))
@@ -105,38 +115,41 @@ int	malloc_objs(t_scene *scene, char **spl, int *counts)
 	}
 	scene->objs = ft_calloc(sizeof(t_obj), (counts[0] + 1));
 	scene->light = ft_calloc(sizeof(t_light), (counts[1] + 1));
+	scene->objc = counts[0];
+	scene->lightc = counts[1];
 	if (scene->objs == 0 || scene->light == 0)
 		err = write(2, "Error: Malloc on objects or lights\n", 36);
 	return (err);
 }
 
+/*
+sorry i had to create the 3 array counts for norminette, counts[2] is the error
+*/
 int	unmarshal(char *file, t_scene *scene)
 {
 	char	**spl;
 	char	*str;
 	int		i;
-	int		err;
-	int		counts[2];
+	int		counts[3];
 
-	err = 0;
+	counts[2] = 0;
 	i = -1;
 	spl = ft_split(file, '\n');
-	err = malloc_objs(scene, spl, counts);
-	scene->objc = counts[0];
-	scene->lightc = counts[1];
-	while (spl[++i] != 0 && err == 0)
+	counts[2] = malloc_objs(scene, spl, counts);
+	while (spl[++i] != 0 && counts[2] == 0)
 	{
 		str = spl[i];
 		if (ft_strchr(str, 'A'))
-			err = unmarshalambient(str, scene);
+			counts[2] = unmarshalambient(str, scene);
 		else if (ft_strchr(str, 'L'))
-			err = unmarshallight(str, scene);
+			counts[2] = unmarshallight(str, scene);
 		else if (ft_strchr(str, 'C'))
-			err = unmarshalcamera(str, scene);
+			counts[2] = unmarshalcamera(str, scene);
 		else
-			err = unmarshalobject(str, scene);
+			counts[2] = unmarshalobject(str, scene);
 	}
 	scene->objc = counts[0];
 	scene->lightc = counts[1];
-	return (err);
+	free_matrix(spl);
+	return (counts[2]);
 }
