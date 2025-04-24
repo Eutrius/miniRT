@@ -184,6 +184,8 @@ int						unmarshal(char *str, t_scene *scene);
 int						unmarshalobject(char *str, t_scene *scene);
 int						getcolor(char *str, int *err);
 t_vec					getcoords(char *str, int *err);
+int						get_cone(t_scene *scene, char **args, t_cone *self);
+int						get_cy(t_scene *scene, char **args, t_cylinder *self);
 
 // utils
 char					is_float(char *str);
@@ -203,9 +205,10 @@ int						coloradd(int colora, int colorb);
 int						colormult(int color, float multiplier);
 int						clamp(int val);
 float					point_distance(int x1, int y1, int x2, int y2);
-
+char					is_normal(t_vec vec);
 // memory
 void					free_matrix(char **mat);
+void					free_scene(t_scene *scene);
 
 // debug
 void					print_vec(const t_vec *vec);

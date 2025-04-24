@@ -11,7 +11,7 @@ LIBFT_DIR 	= lib/libft
 LIBFT 		= $(LIBFT_DIR)/libft.a
 MLX_DIR		= lib/mlx
 MLX			= $(MLX_DIR)/libmlx.a
-LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -g
+LIBS 		= -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -gdwarf-4
 
 SRC = src/main.c \
 	  src/hooks.c \
@@ -36,11 +36,11 @@ SRC = src/main.c \
 	  src/unmarsh.c \
 	  src/unmarsh_object.c \
 	  src/memory_man.c \
-	  src/debug.c \
 	  src/render.c \
 	  src/mlx.c \
 	  src/lightman.c \
-	  src/bump.c
+	  src/bump.c \
+	  src/unmarsh_obj_utils.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

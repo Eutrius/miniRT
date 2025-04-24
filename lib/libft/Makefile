@@ -31,7 +31,7 @@ BOUTFILE = $(BSRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -gdwarf-4
 
 RM = rm -f
 
