@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include <stdio.h>
 
 static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 {
@@ -21,9 +22,16 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 	scene->data = data;
 	filestr = readfile(argc, argv);
 	err = unmarshal(filestr, scene);
-	if (err)
-		exit(1);
 	free(filestr);
+	if (err)
+	{
+		free_scene(scene);
+		exit(1);
+	}
+	data->mlx = mlx_init();
+	mlx_get_screen_size(data->mlx, &data->w, &data->h);
+	data->w /= 2;
+	data->h /= 2;
 	set_camera_axis(scene);
 	set_viewport(scene, scene->data->w, scene->data->h);
 	data->obj_onhand = -1;
@@ -35,10 +43,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	data.mlx = mlx_init();
-	mlx_get_screen_size(data.mlx, &data.w, &data.h);
-	data.w /= 2;
-	data.h /= 2;
 	init(argc, argv, &data.scene, &data);
 	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
 	hooks(&data);

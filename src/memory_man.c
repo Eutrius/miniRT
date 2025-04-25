@@ -33,7 +33,8 @@ void	free_scene(t_scene *scene)
 	i = 0;
 	while (i < scene->objc)
 	{
-		free(scene->objs[i].self);
+		if (scene->objs[i].self)
+			free(scene->objs[i].self);
 		i++;
 	}
 	if (scene->objs)

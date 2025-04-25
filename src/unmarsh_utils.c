@@ -42,7 +42,7 @@ int	getcolor(char *str, int *err)
 	{
 		cur = ft_atof(rgb[i]);
 		if (!is_float(rgb[i]) || cur > 255 || cur < 0)
-			*err = write(2, "Error: Wrong format, (0-255,0-255,0-255)\n", 48);
+			*err = write(2, "Error: Wrong format, (0-255,0-255,0-255)\n", 41);
 		ret = ret << 8;
 		ret = cur | ret;
 		i++;
