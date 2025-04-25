@@ -16,14 +16,6 @@
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
-# define W_KEY 119
-# define S_KEY 115
-# define C_KEY 99
-# define L_KEY 108
-# define UP_KEY 65362
-# define LEFT_KEY 65361
-# define DOWN_KEY 65364
-# define RIGHT_KEY 65363
 # define SHINYNESS 0.5f
 # define ROUGHNESS 0.5f
 
@@ -99,6 +91,8 @@ typedef struct s_object
 	t_obj_type			type;
 	int					color;
 	float				rough;
+	int					bump;
+	int					checker;
 	char				(*hit)(t_ray ray, t_hit *hit, void *self);
 }						t_obj;
 

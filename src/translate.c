@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include <X11/keysym.h>
 
 static void	translate(t_data *data, t_vec *vec, t_vec by);
 
@@ -48,9 +49,9 @@ void	translate_nobj(t_data *data, int keycode)
 {
 	t_vec	by;
 
-	by.x = (2 * (keycode == RIGHT_KEY) - 1) - (2 * (keycode == LEFT_KEY) - 1);
-	by.y = (2 * (keycode == DOWN_KEY) - 1) - (2 * (keycode == UP_KEY) - 1);
-	by.z = (2 * (keycode == W_KEY) - 1) - (2 * (keycode == S_KEY) - 1);
+	by.x = (2 * (keycode == XK_Right) - 1) - (2 * (keycode == XK_Left) - 1);
+	by.y = (2 * (keycode == XK_Down) - 1) - (2 * (keycode == XK_Up) - 1);
+	by.z = (2 * (keycode == XK_w) - 1) - (2 * (keycode == XK_s) - 1);
 	if (by.x || by.y || by.z)
 	{
 		if (data->nobj_onhand == -1)
