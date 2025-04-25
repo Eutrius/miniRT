@@ -32,8 +32,9 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 			return (0);
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = calculate_normal(hit->point, cone);
-		bump(hit);
-		checkerboard_co(hit, cone, ((t_obj *)self)->color);
+		if (((t_obj *)self)->bump)
+			bump(hit);
+		checkerman(hit, self);
 		return (1);
 	}
 	return (0);

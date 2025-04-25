@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:45 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 19:35:16 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:42:18 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,17 @@ static int	input_event(int keycode, t_data *data)
 	if (keycode == XK_Escape)
 		exit_event(data);
 	else if (keycode == XK_c && data->nobj_onhand != -1)
-	{
-		data->nobj_onhand = -1;
-		printf("select camera to move\n");
-	}
+		select_camera(data);
 	else if (keycode == XK_l && data->scene.lightc > 0)
-	{
-		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
-		printf("selct light %i to move\n", data->nobj_onhand);
-	}
+		select_lights(data);
 	else if (keycode == XK_v)
-	{
-		data->rot_cam = (data->rot_cam == 0);
-		printf("toggle rotate camera %i\n", data->rot_cam);
-	}
-	translate_nobj(data, keycode);
+		select_rotate_camera(data);
+	else if (keycode == XK_b)
+		toggle_bump(data);
+	else if (keycode == XK_n)
+		toggle_checker(data);
+	else
+		translate_nobj(data, keycode);
 	return (0);
 }
 

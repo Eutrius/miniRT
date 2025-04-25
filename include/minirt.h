@@ -231,6 +231,7 @@ void					rotate_camera(t_data *data, int x, int y);
 
 // checkerboard
 
+void					checkerman(t_hit *hit, t_obj *obj);
 void					checkerboard_sp(t_hit *hit, t_sphere *sphere,
 							int color);
 void					checkerboard_pl(t_hit *hit, t_plane *plane, int color);
@@ -238,5 +239,10 @@ void					checkerboard_co(t_hit *hit, t_cone *cone, int color);
 void					checkerboard_cy(t_hit *hit, t_cylinder *cyl, int color);
 t_vec					get_orthogonal_vector(t_vec axis);
 int						set_color(float u, float v, int color);
+void					select_camera(t_data *data);
+void					select_lights(t_data *data);
+void					select_rotate_camera(t_data *data);
+void					toggle_bump(t_data *data);
+void					toggle_checker(t_data *data);
 
 #endif

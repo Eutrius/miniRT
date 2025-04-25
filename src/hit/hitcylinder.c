@@ -44,7 +44,9 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 				quad.t2) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit,
 				cyl, vecsub))
 		{
-			checkerboard_cy(hit, cyl, ((t_obj *)self)->color);
+			if (((t_obj *)self)->bump)
+				bump(hit);
+			checkerman(hit, self);
 			return (1);
 		}
 	}

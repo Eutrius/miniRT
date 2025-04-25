@@ -12,6 +12,23 @@
 
 #include "minirt.h"
 
+void	checkerman(t_hit *hit, t_obj *obj)
+{
+	if (!obj->checker)
+		hit->color = obj->color;
+	else
+	{
+		if (obj->type == PLANE)
+			checkerboard_pl(hit, obj->self, obj->color);
+		else if (obj->type == SPHERE)
+			checkerboard_sp(hit, obj->self, obj->color);
+		else if (obj->type == CYLINDER)
+			checkerboard_cy(hit, obj->self, obj->color);
+		else if (obj->type == CONE)
+			checkerboard_co(hit, obj->self, obj->color);
+	}
+}
+
 t_vec	get_orthogonal_vector(t_vec axis)
 {
 	t_vec	ortho;

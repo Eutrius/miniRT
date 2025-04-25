@@ -40,6 +40,7 @@ SRC = src/main.c \
 	  src/mlx.c \
 	  src/lightman.c \
 	  src/bump.c \
+	  src/events.c \
 	  src/unmarsh_obj_utils.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
