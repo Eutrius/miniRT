@@ -37,8 +37,8 @@ int	main(int argc, char **argv)
 
 	data.mlx = mlx_init();
 	mlx_get_screen_size(data.mlx, &data.w, &data.h);
-	data.w /= 2;
-	data.h /= 2;
+	data.w /= 8;
+	data.h /= 8;
 	init(argc, argv, &data.scene, &data);
 	data.mlx_win = mlx_new_window(data.mlx, data.w, data.h, "MiniRT");
 	hooks(&data);

@@ -34,7 +34,7 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 
 	sphere = ((t_obj *)self)->self;
 	calculat_coeff(ray, sphere, &quad);
-	if (quad.discriminant >= 0)
+	if (quad.discriminant >= EPSILON)
 	{
 		if (quad.t1 >= EPSILON && (quad.t1 < quad.t2 || quad.t2 < EPSILON))
 			hit->t = quad.t1;
