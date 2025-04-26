@@ -178,8 +178,8 @@ int						unmarshal(char *str, t_scene *scene);
 int						unmarshalobject(char *str, t_scene *scene);
 int						getcolor(char *str, int *err);
 t_vec					getcoords(char *str, int *err);
-int						get_cone(t_scene *scene, char **args, t_cone *self);
-int						get_cy(t_scene *scene, char **args, t_cylinder *self);
+int						get_cone(t_scene *scene, char **args, t_cone *self, int i);
+int						get_cy(t_scene *scene, char **args, t_cylinder *self, int i);
 
 // utils
 char					is_float(char *str);

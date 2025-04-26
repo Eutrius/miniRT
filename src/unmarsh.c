@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdio.h>
 #include <unistd.h>
 
 static int	unmarshalcamera(char *str, t_scene *scene)
@@ -21,7 +20,7 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	int			err;
 
 	err = 0;
-	if (present != 0)
+	if (present++ != 0)
 		return (write(2, "Error: Too many cameras\n", 25));
 	args = ft_split(str, ' ');
 	if (args && args[1] && args[2] && args[3])
@@ -75,7 +74,7 @@ static int	unmarshalambient(char *str, t_scene *scene)
 	int			err;
 
 	err = 0;
-	if (present != 0)
+	if (present++ != 0)
 		return (write(2, "Error: Too many Ambient lights\n", 32));
 	args = ft_split(str, ' ');
 	if (args && args[1] && args[2])
@@ -95,11 +94,12 @@ static int	unmarshalambient(char *str, t_scene *scene)
 
 /* in the int array counts the firct is the objc and the second is the lightc
  * norme reasons */
-int	malloc_objs(t_scene *scene, char **spl, int *counts)
+int	malloc_objs(t_scene *scene, char **spl)
 {
 	int		err;
 	int		i;
 	char	*str;
+	int counts[2];
 
 	err = 0;
 	i = 0;
@@ -122,34 +122,29 @@ int	malloc_objs(t_scene *scene, char **spl, int *counts)
 	return (err);
 }
 
-/*
-sorry i had to create the 3 array counts for norminette, counts[2] is the error
-*/
 int	unmarshal(char *file, t_scene *scene)
 {
 	char	**spl;
 	char	*str;
 	int		i;
-	int		counts[3];
+	int		err;
 
-	counts[2] = 0;
+	err = 0;
 	i = -1;
 	spl = ft_split(file, '\n');
-	counts[2] = malloc_objs(scene, spl, counts);
-	while (spl[++i] != 0 && counts[2] == 0)
+	malloc_objs(scene, spl);
+	while (spl[++i] != 0 && err == 0)
 	{
 		str = spl[i];
 		if (ft_strchr(str, 'A'))
-			counts[2] = unmarshalambient(str, scene);
+			err = unmarshalambient(str, scene);
 		else if (ft_strchr(str, 'L'))
-			counts[2] = unmarshallight(str, scene);
+			err = unmarshallight(str, scene);
 		else if (ft_strchr(str, 'C'))
-			counts[2] = unmarshalcamera(str, scene);
+			err = unmarshalcamera(str, scene);
 		else
-			counts[2] = unmarshalobject(str, scene);
+			err = unmarshalobject(str, scene);
 	}
-	scene->objc = counts[0];
-	scene->lightc = counts[1];
 	free_matrix(spl);
-	return (counts[2]);
+	return (err);
 }
