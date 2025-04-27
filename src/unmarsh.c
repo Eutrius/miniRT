@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:17 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 12:42:43 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:23:08 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ int	unmarshal(char *file, t_scene *scene)
 		else
 			err = unmarshalobject(str, scene);
 	}
-	printf("lightc = %d\n", scene->lightc);
 	free_matrix(spl);
 	return (err);
 }
