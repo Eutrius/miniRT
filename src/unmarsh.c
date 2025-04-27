@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:17 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 11:58:32 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 12:42:43 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,25 @@ static int	unmarshallight(char *str, t_scene *scene)
 {
 	char	**args;
 	int		err;
+	static int index;
 
 	err = 0;
 	args = ft_split(str, ' ');
 	if (args && args[1] && args[2] && args[3])
 	{
-		scene->light[scene->lightc - 1].pos = getcoords(args[1], &err);
+		scene->light[index].pos = getcoords(args[1], &err);
 		if (!is_float(args[2]))
 			err = (write(2, "Light Ratio not a number ([0.0,1.0])\n", 38));
-		scene->light[scene->lightc - 1].ratio = ft_atof(args[2]);
-		if (scene->light[scene->lightc - 1].ratio < 0.0
-			|| scene->light[scene->lightc - 1].ratio > 1.0)
+		scene->light[index].ratio = ft_atof(args[2]);
+		if (scene->light[index].ratio < 0.0
+			|| scene->light[index].ratio > 1.0)
 			err = (write(2, "Wrong Light Ratio, ([0.0,1.0])\n", 32));
-		scene->light[scene->lightc].color = getcolor(args[3], &err);
+		scene->light[index].color = getcolor(args[3], &err);
 	}
 	else
 		err = write(2, "Error: Wrong Arguments\n", 24);
 	free_matrix(args);
-	scene->lightc--;
+	index++;
 	return (err);
 }
 
@@ -145,6 +146,7 @@ int	unmarshal(char *file, t_scene *scene)
 		else
 			err = unmarshalobject(str, scene);
 	}
+	printf("lightc = %d\n", scene->lightc);
 	free_matrix(spl);
 	return (err);
 }

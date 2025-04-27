@@ -16,7 +16,7 @@
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
-# define SHINYNESS 0.5f
+# define SHINYNESS 0.9f
 # define ROUGHNESS 0.5f
 
 typedef struct s_data	t_data;
@@ -200,6 +200,8 @@ int						colormult(int color, float multiplier);
 int						clamp(int val);
 float					point_distance(int x1, int y1, int x2, int y2);
 char					is_normal(t_vec vec);
+t_vec					negate(t_vec v);
+
 // memory
 void					free_matrix(char **mat);
 void					free_scene(t_scene *scene);

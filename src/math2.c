@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:57 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 19:00:55 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:10:40 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_vec	normalize(t_vec v)
 	t_vec	r;
 
 	length = veclen(v);
+	if (length == 0)
+		return vector(0,0,0);
 	r.x = v.x / length;
 	r.y = v.y / length;
 	r.z = v.z / length;
