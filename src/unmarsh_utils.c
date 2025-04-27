@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:15 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 19:32:54 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:57:07 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	getcolor(char *str, int *err)
 	i = 0;
 	ret = 0;
 	rgb = ft_split(str, ',');
-	while (rgb[i])
+	while (rgb[i] && *err == 0)
 	{
 		cur = ft_atof(rgb[i]);
 		if (!is_float(rgb[i]) || cur > 255 || cur < 0)

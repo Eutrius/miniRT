@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:17 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:59:55 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:58:32 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ int	unmarshal(char *file, t_scene *scene)
 	while (spl[++i] != 0 && err == 0)
 	{
 		str = spl[i];
-		if (ft_strchr(str, 'A'))
+		if (ft_strncmp(str, "A ", 2) == 0)
 			err = unmarshalambient(str, scene);
-		else if (ft_strchr(str, 'L'))
+		else if (ft_strncmp(str, "L ", 2) == 0)
 			err = unmarshallight(str, scene);
-		else if (ft_strchr(str, 'C'))
+		else if (ft_strncmp(str, "C ", 2) == 0)
 			err = unmarshalcamera(str, scene);
 		else
 			err = unmarshalobject(str, scene);
