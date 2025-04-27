@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:47 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 13:17:44 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 13:24:08 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	specular(t_hit *h, t_light light, t_ray lightray, t_ray og)
 	dot_product = dot(reflected_ray, view_dir);
 	if (dot_product > 0)
 	{
-		intensity = powf(dot_product, 31.1f);
+		intensity = powf(dot_product, SHINYNESS);
 		h->color = coloradd(h->color, colormult(light.color,
 					light.ratio * intensity * attenuation));
 	}
