@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:13 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 19:14:53 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/27 12:12:15 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	unmarshalobject(char *str, t_scene *scene)
 	static int objc;
 
 	err = 0;
-	objc++;
 	if (!ft_strncmp(str, "sp ", 3))
 		err = unmarshalsphere(str, scene, objc);
 	else if (!ft_strncmp(str, "pl ", 3))
@@ -120,5 +119,6 @@ int	unmarshalobject(char *str, t_scene *scene)
 		err = unmarshalcone(str, scene, objc);
 	else
 	 	err = write(2, "Error: unknown object\n", 22);
+	objc++;
 	return (err);
 }
