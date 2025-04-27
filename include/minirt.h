@@ -16,14 +16,6 @@
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
-# define W_KEY 119
-# define S_KEY 115
-# define C_KEY 99
-# define L_KEY 108
-# define UP_KEY 65362
-# define LEFT_KEY 65361
-# define DOWN_KEY 65364
-# define RIGHT_KEY 65363
 # define SHINYNESS 0.5f
 # define ROUGHNESS 0.5f
 
@@ -99,6 +91,8 @@ typedef struct s_object
 	t_obj_type			type;
 	int					color;
 	float				rough;
+	int					bump;
+	int					checker;
 	char				(*hit)(t_ray ray, t_hit *hit, void *self);
 }						t_obj;
 
@@ -237,6 +231,7 @@ void					rotate_camera(t_data *data, int x, int y);
 
 // checkerboard
 
+void					checkerman(t_hit *hit, t_obj *obj);
 void					checkerboard_sp(t_hit *hit, t_sphere *sphere,
 							int color);
 void					checkerboard_pl(t_hit *hit, t_plane *plane, int color);
@@ -244,5 +239,10 @@ void					checkerboard_co(t_hit *hit, t_cone *cone, int color);
 void					checkerboard_cy(t_hit *hit, t_cylinder *cyl, int color);
 t_vec					get_orthogonal_vector(t_vec axis);
 int						set_color(float u, float v, int color);
+void					select_camera(t_data *data);
+void					select_lights(t_data *data);
+void					select_rotate_camera(t_data *data);
+void					toggle_bump(t_data *data);
+void					toggle_checker(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:45 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 19:35:16 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/25 13:42:18 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 		rotate_obj(data, x - data->from_x, y - data->from_y);
 	if (button == R_MOUSE)
 		transform(data, x, y);
-	data->obj_onhand = -1;
 	render_scene(data);
 	return (0);
 }
@@ -71,22 +70,18 @@ static int	input_event(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		exit_event(data);
-	else if (keycode == C_KEY && data->nobj_onhand != -1)
-	{
-		data->nobj_onhand = -1;
-		printf("select camera  to move\n");
-	}
-	else if (keycode == L_KEY && data->scene.lightc > 0)
-	{
-		data->nobj_onhand = ((data->nobj_onhand + 1) % data->scene.lightc);
-		printf("selct light %i to move\n", data->nobj_onhand);
-	}
-	else if (keycode == 118)
-	{
-		data->rot_cam = (data->rot_cam == 0);
-		printf("toggle rotate camera %i\n", data->rot_cam);
-	}
-	translate_nobj(data, keycode);
+	else if (keycode == XK_c && data->nobj_onhand != -1)
+		select_camera(data);
+	else if (keycode == XK_l && data->scene.lightc > 0)
+		select_lights(data);
+	else if (keycode == XK_v)
+		select_rotate_camera(data);
+	else if (keycode == XK_b)
+		toggle_bump(data);
+	else if (keycode == XK_n)
+		toggle_checker(data);
+	else
+		translate_nobj(data, keycode);
 	return (0);
 }
 

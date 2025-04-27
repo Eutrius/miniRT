@@ -31,7 +31,10 @@ void	quadratic(t_quadratic *quad)
 	{
 		quad->t1 = (-quad->b - sqrtf(quad->discriminant)) / (2 * quad->a);
 		quad->t2 = (-quad->b + sqrtf(quad->discriminant)) / (2 * quad->a);
+		return ;
 	}
+	quad->t1 = 0;
+	quad->t1 = 0;
 }
 
 float	point_distance(int x1, int y1, int x2, int y2)
