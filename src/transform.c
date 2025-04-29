@@ -44,6 +44,7 @@ static void	transform_sphere(t_data *data, t_sphere *sphere, int x, int y)
 	sphere->radius += ((point_distance(x, y, data->from_x, data->from_y)
 				* (data->scene.cam.half_height) * SCALE) * (2
 				* (from_dist < to_dist) - 1));
+	sphere->radius = fmax(sphere->radius, MIN_PROP);
 }
 
 static void	transform_cylinder(t_data *data, t_cylinder *cylinder, int x, int y)
@@ -60,6 +61,8 @@ static void	transform_cylinder(t_data *data, t_cylinder *cylinder, int x, int y)
 			* (from_dist < to_dist) - 1);
 	cylinder->height += fabs((y - data->from_y) * SCALE) * (2
 			* (from_dist < to_dist) - 1);
+	cylinder->radius = fmax(cylinder->radius, MIN_PROP);
+	cylinder->height = fmax(cylinder->height, MIN_PROP);
 }
 
 static void	transform_cone(t_data *data, t_cone *cone, int x, int y)
@@ -74,6 +77,7 @@ static void	transform_cone(t_data *data, t_cone *cone, int x, int y)
 	to_dist = point_distance(x, y, cone_x, cone_y);
 	cone->angle += fabs((x - data->from_x) * SCALE) * (2 * (from_dist < to_dist)
 			- 1);
+	cone->angle = fmax(cone->angle, MIN_PROP);
 }
 
 static void	vec_to_camera_point(t_data *data, t_vec v, float *x, float *y)

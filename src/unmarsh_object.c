@@ -105,8 +105,8 @@ static int	unmarshalcone(char *str, t_scene *scene, int index)
 
 int	unmarshalobject(char *str, t_scene *scene)
 {
-	int	err;
-	static int objc;
+	int			err;
+	static int	objc;
 
 	err = 0;
 	if (!ft_strncmp(str, "sp ", 3))
@@ -118,7 +118,7 @@ int	unmarshalobject(char *str, t_scene *scene)
 	else if (!ft_strncmp(str, "co ", 3))
 		err = unmarshalcone(str, scene, objc);
 	else
-	 	err = write(2, "Error: unknown object\n", 22);
+		err = write(2, "Error: unknown object\n", 22);
 	objc++;
 	return (err);
 }

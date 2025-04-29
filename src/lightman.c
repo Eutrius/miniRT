@@ -12,14 +12,14 @@
 
 #include "minirt.h"
 
-static int is_hit_closer_than_light(t_ray lightray, t_hit hit, t_light light)
+static int	is_hit_closer_than_light(t_ray lightray, t_hit hit, t_light light)
 {
-    float dist_to_hit;
-    float dist_to_light;
+	float	dist_to_hit;
+	float	dist_to_light;
 
 	dist_to_light = veclen(vecsub(light.pos, lightray.start));
 	dist_to_hit = hit.t;
-    return (dist_to_hit > 0.001f && dist_to_hit < dist_to_light);
+	return (dist_to_hit > 0.001f && dist_to_hit < dist_to_light);
 }
 
 void	ambient(t_hit *h, t_amb ambient)
@@ -31,15 +31,15 @@ int	diffuse(t_hit *h, t_light light, t_ray lightray)
 {
 	float	intensity;
 	float	distance;
-	float attenuation;
+	float	attenuation;
 
 	distance = veclen(vecsub(light.pos, lightray.start));
 	attenuation = 1.0f / (1.0f + 0.1f * distance + 0.01f * distance * distance);
 	intensity = dot(h->normal, lightray.dir);
 	if (intensity < 0)
 		return (1);
-	h->color = coloradd(h->color, colormult(light.color,
-				light.ratio * intensity * attenuation));
+	h->color = coloradd(h->color, colormult(light.color, light.ratio * intensity
+				* attenuation));
 	return (1);
 }
 
@@ -50,24 +50,25 @@ void	specular(t_hit *h, t_light light, t_ray lightray, t_ray og)
 	float	dot_product;
 	float	intensity;
 	float	distance;
-	float attenuation;
+	float	attenuation;
 
 	distance = veclen(vecsub(light.pos, lightray.start));
 	attenuation = 1.0f / (1.0f + 0.1f * distance + 0.01f * distance * distance);
-	reflected_ray = vecsub(scalar(h->normal, 2
-				* dot(lightray.dir, h->normal)), lightray.dir);
+	reflected_ray = vecsub(scalar(h->normal, 2 * dot(lightray.dir, h->normal)),
+			lightray.dir);
 	view_dir = normalize(negate(og.dir));
 	dot_product = dot(reflected_ray, view_dir);
 	if (dot_product > 0)
 	{
 		intensity = powf(dot_product, SHINYNESS);
-		h->color = coloradd(h->color, colormult(light.color,
-					light.ratio * intensity * attenuation));
+		h->color = coloradd(h->color, colormult(light.color, light.ratio
+					* intensity * attenuation));
 	}
 }
 
 /*
-sorry, norminette, i[1] is the light index, i[0] is the object index, i[2] is the
+sorry, norminette, i[1] is the light index, i[0] is the object index,
+	i[2] is the
 collision flag >:
 */
 void	lightman(t_scene scene, t_ray r, t_hit *hit)

@@ -19,7 +19,7 @@ t_vec	normalize(t_vec v)
 
 	length = veclen(v);
 	if (length == 0)
-		return vector(0,0,0);
+		return (vector(0, 0, 0));
 	r.x = v.x / length;
 	r.y = v.y / length;
 	r.z = v.z / length;
