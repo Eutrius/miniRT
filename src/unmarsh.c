@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:17 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 13:23:08 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:56:54 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 	if (present++ != 0)
 		return (write(2, "Error: Too many cameras\n", 25));
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3])
+	if (args && args[1] && args[2] && args[3] && !args[4])
 	{
 		scene->cam.pos = getcoords(args[1], &err);
 		scene->cam.forward = getcoords(args[2], &err);
@@ -50,7 +50,7 @@ static int	unmarshallight(char *str, t_scene *scene)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3])
+	if (args && args[1] && args[2] && args[3] && !args[4])
 	{
 		scene->light[index].pos = getcoords(args[1], &err);
 		if (!is_float(args[2]))
@@ -77,7 +77,7 @@ static int	unmarshalambient(char *str, t_scene *scene)
 	if (present++ != 0)
 		return (write(2, "Error: Too many Ambient lights\n", 32));
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2])
+	if (args && args[1] && args[2] && !args[3])
 	{
 		if (!is_float(args[1]))
 			err = (write(2, "Ambient Ratio not a number ([0.0,1.0])\n", 40));
