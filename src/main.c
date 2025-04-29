@@ -6,12 +6,11 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:49 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 12:03:37 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:52:26 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdio.h>
 
 static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 {

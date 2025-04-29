@@ -44,9 +44,9 @@ static int	unmarshalcamera(char *str, t_scene *scene)
 
 static int	unmarshallight(char *str, t_scene *scene)
 {
-	char	**args;
-	int		err;
-	static int index;
+	char		**args;
+	int			err;
+	static int	index;
 
 	err = 0;
 	args = ft_split(str, ' ');
@@ -56,8 +56,7 @@ static int	unmarshallight(char *str, t_scene *scene)
 		if (!is_float(args[2]))
 			err = (write(2, "Light Ratio not a number ([0.0,1.0])\n", 38));
 		scene->light[index].ratio = ft_atof(args[2]);
-		if (scene->light[index].ratio < 0.0
-			|| scene->light[index].ratio > 1.0)
+		if (scene->light[index].ratio < 0.0 || scene->light[index].ratio > 1.0)
 			err = (write(2, "Wrong Light Ratio, ([0.0,1.0])\n", 32));
 		scene->light[index].color = getcolor(args[3], &err);
 	}
@@ -100,7 +99,7 @@ int	malloc_objs(t_scene *scene, char **spl)
 	int		err;
 	int		i;
 	char	*str;
-	int counts[2];
+	int		counts[2];
 
 	err = 0;
 	i = 0;

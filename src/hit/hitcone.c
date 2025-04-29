@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static void		calculat_coeff(t_ray ray, t_cone *cone, t_quadratic *quad);
+static void		calculate_coeff(t_ray ray, t_cone *cone, t_quadratic *quad);
 static t_vec	calculate_normal(t_vec hit_point, t_cone *cone);
 
 char	hitcone(t_ray ray, t_hit *hit, void *self)
@@ -21,7 +21,7 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 	t_quadratic	quad;
 
 	cone = ((t_obj *)self)->self;
-	calculat_coeff(ray, cone, &quad);
+	calculate_coeff(ray, cone, &quad);
 	if (quad.discriminant >= EPSILON)
 	{
 		if (quad.t1 >= EPSILON && (quad.t1 < quad.t2 || quad.t2 < EPSILON))
@@ -55,7 +55,7 @@ static t_vec	calculate_normal(t_vec hit_point, t_cone *cone)
 	return (normalize(normal));
 }
 
-static void	calculat_coeff(t_ray ray, t_cone *cone, t_quadratic *quad)
+static void	calculate_coeff(t_ray ray, t_cone *cone, t_quadratic *quad)
 {
 	t_vec	oc;
 	float	axis_dir;

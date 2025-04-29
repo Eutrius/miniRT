@@ -10,9 +10,9 @@
 
 # define EPSILON 0.00001f
 # define SCALE 0.05f
+# define MIN_PROP 1.0f
 # define SCROLL_RATE 10
 # define NOBJ_SPEED 20.0f
-
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
@@ -178,8 +178,10 @@ int						unmarshal(char *str, t_scene *scene);
 int						unmarshalobject(char *str, t_scene *scene);
 int						getcolor(char *str, int *err);
 t_vec					getcoords(char *str, int *err);
-int						get_cone(t_scene *scene, char **args, t_cone *self, int i);
-int						get_cy(t_scene *scene, char **args, t_cylinder *self, int i);
+int						get_cone(t_scene *scene, char **args, t_cone *self,
+							int i);
+int						get_cy(t_scene *scene, char **args, t_cylinder *self,
+							int i);
 
 // utils
 char					is_float(char *str);
