@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:47 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 13:24:08 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:01:40 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,19 @@ void	specular(t_hit *h, t_light light, t_ray lightray, t_ray og)
 {
 	t_vec	reflected_ray;
 	t_vec	view_dir;
-	float	dot_product;
+	float	dot_prod;
 	float	intensity;
-	float	distance;
 	float	attenuation;
 
-	distance = veclen(vecsub(light.pos, lightray.start));
-	attenuation = 1.0f / (1.0f + 0.1f * distance + 0.01f * distance * distance);
+	dot_prod = veclen(vecsub(light.pos, lightray.start));
+	attenuation = 1.0f / (1.0f + 0.1f * dot_prod + 0.01f * dot_prod * dot_prod);
 	reflected_ray = vecsub(scalar(h->normal, 2 * dot(lightray.dir, h->normal)),
 			lightray.dir);
 	view_dir = normalize(negate(og.dir));
-	dot_product = dot(reflected_ray, view_dir);
-	if (dot_product > 0)
+	dot_prod = dot(reflected_ray, view_dir);
+	if (dot_prod > 0)
 	{
-		intensity = powf(dot_product, SHINYNESS);
+		intensity = powf(dot_prod, SHINYNESS);
 		h->color = coloradd(h->color, colormult(light.color, light.ratio
 					* intensity * attenuation));
 	}

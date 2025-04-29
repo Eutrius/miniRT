@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:13 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 12:12:15 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:59:28 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	unmarshalcone(char *str, t_scene *scene, int index)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3] && args[4])
+	if (args && args[1] && args[2] && args[3] && args[4] && !args[5])
 	{
 		self = ft_calloc(sizeof(t_cone), 1);
 		err = get_cone(scene, args, self, index);
