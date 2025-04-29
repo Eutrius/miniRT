@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmoricon <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:02 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/29 18:04:04 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:19:01 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define L_MOUSE 1
 # define M_MOUSE 2
 # define R_MOUSE 3
-# define SHINYNESS 0.9f
+# define SHINYNESS 34.0f
 # define ROUGHNESS 0.5f
 
 typedef struct s_data	t_data;

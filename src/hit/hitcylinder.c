@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:21 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:42:34 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:35:07 by lmoricon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static int	hit_body(t_ray ray, t_cylinder *cyl, t_hit *hit, float t)
 				axis_point = vecsum(cyl->center, scalar(cyl->axis,
 							center_proj));
 				hit->normal = normalize(vecsub(hit_point, axis_point));
-				bump(hit);
 				return (1);
 			}
 		}
