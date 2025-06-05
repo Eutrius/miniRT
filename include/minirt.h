@@ -20,7 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define EPSILON 0.00001f
+# define EPSILON 0.0001f
 # define SCALE 0.05f
 # define MIN_PROP 1.0f
 # define SCROLL_RATE 10
@@ -30,6 +30,7 @@
 # define R_MOUSE 3
 # define SHINYNESS 29.0f
 # define ROUGHNESS 0.5f
+# define SCREEN_FRACTION 8
 
 typedef struct s_data	t_data;
 typedef struct s_mlximg	t_img;

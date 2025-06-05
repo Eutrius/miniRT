@@ -79,7 +79,7 @@ char	is_normal(t_vec vec)
 	float	a;
 
 	a = pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2);
-	if (!(1 < 1 + 0.001 && a > 1 - 0.001))
+	if (fabs(1 - a) > 0.001)
 		return (0);
 	return (1);
 }
