@@ -45,7 +45,7 @@ char	hitsphere(t_ray ray, t_hit *hit, void *self)
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = normalize(vecsub(hit->point, sphere->center));
 		if (((t_obj *)self)->bump)
-			bump(hit);
+			bump_normal((t_obj *)self, ((t_obj *)self)->texture, hit);
 		checkerman(hit, self);
 		return (1);
 	}

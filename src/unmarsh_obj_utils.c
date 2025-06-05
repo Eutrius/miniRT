@@ -51,3 +51,10 @@ int	get_cy(t_scene *scene, char **args, t_cylinder *self, int index)
 	scene->objs[index].color = getcolor(args[5], &err);
 	return (err);
 }
+
+// int	textureman(char **args, t_scene *scene, int index)
+// {
+// 	if (!args[0])
+// 		return (1);
+// 	return (0);
+// }

@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 18:04:02 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/29 18:54:48 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:00:13 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define ROUGHNESS 0.5f
 
 typedef struct s_data	t_data;
+typedef struct s_mlximg	t_img;
 
 typedef enum e_obj_type
 {
@@ -104,6 +105,7 @@ typedef struct s_object
 	int					color;
 	float				rough;
 	int					bump;
+	t_img				*texture;
 	int					checker;
 	char				(*hit)(t_ray ray, t_hit *hit, void *self);
 }						t_obj;
@@ -154,6 +156,8 @@ typedef struct s_mlximg
 	int					bits_per_pixel;
 	int					line_length;
 	int					endian;
+	int					width;
+	int					height;
 }						t_img;
 
 typedef struct s_data
@@ -170,6 +174,12 @@ typedef struct s_data
 	int					rot_cam;
 
 }						t_data;
+
+typedef struct s_uv
+{
+	float				u;
+	float				v;
+}						t_uv;
 
 /*rendering*/
 
@@ -260,5 +270,16 @@ void					select_lights(t_data *data);
 void					select_rotate_camera(t_data *data);
 void					toggle_bump(t_data *data);
 void					toggle_checker(t_data *data);
-
+t_uv					uv_plane(t_hit *hit, t_plane *plane);
+t_uv					uv_sphere(t_hit *hit, t_sphere *sphere);
+t_uv					uv_cylinder_body(t_hit *hit, t_cylinder *cylinder);
+t_uv					uv_cone(t_hit *hit, t_cone *cone);
+t_uv					uv_cylinder_cap(t_hit *hit, t_cylinder *cylinder,
+							float axis);
+float					calculate_body_u(t_hit *hit, t_cylinder *cyl,
+							t_vec point_on_axis);
+float					calculate_theta(t_hit *hit, t_cone *cone, t_vec apex);
+t_vec					process_bump_normal(t_vec n, float bu, float bv);
+void					bump_normal(t_obj *obj, t_img *img, t_hit *hit);
+int						textureman(char **args, t_obj *obj, t_data *data);
 #endif

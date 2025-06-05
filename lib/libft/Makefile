@@ -29,7 +29,7 @@ OUTFILE = $(SRCS:.c=.o)
 
 BOUTFILE = $(BSRCS:.c=.o)
 
-CC = gcc
+CC = clang
 
 CFLAGS = -Wall -Werror -Wextra -gdwarf-4
 

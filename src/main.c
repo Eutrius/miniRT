@@ -19,6 +19,7 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 
 	ft_memset(scene, 0, sizeof(t_scene));
 	scene->data = data;
+	data->mlx = mlx_init();
 	filestr = readfile(argc, argv);
 	err = unmarshal(filestr, scene);
 	free(filestr);
@@ -27,7 +28,6 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 		free_scene(scene);
 		exit(1);
 	}
-	data->mlx = mlx_init();
 	mlx_get_screen_size(data->mlx, &data->w, &data->h);
 	data->w /= 2;
 	data->h /= 2;
