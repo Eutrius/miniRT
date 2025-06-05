@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:21 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/29 18:35:07 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:30:14 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 {
 	t_cylinder	*cyl;
 	t_quadratic	quad;
+	t_obj		*obj;
 
-	cyl = ((t_obj *)self)->self;
+	obj = self;
+	cyl = obj->self;
 	calculat_coeff(ray, cyl, &quad);
 	if (quad.discriminant >= EPSILON)
 	{
@@ -44,8 +46,8 @@ char	hitcylinder(t_ray ray, t_hit *hit, void *self)
 				quad.t2) | hit_cap(ray, hit, cyl, vecsum) | hit_cap(ray, hit,
 				cyl, vecsub))
 		{
-			if (((t_obj *)self)->bump)
-				bump(hit);
+			if (obj->bump && obj->texture)
+				bumperman(obj, obj->texture, hit);
 			checkerman(hit, self);
 			return (1);
 		}

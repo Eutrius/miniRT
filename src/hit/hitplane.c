@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:24 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:42:34 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:28:59 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ char	hitplane(t_ray ray, t_hit *hit, void *self)
 {
 	t_plane	*plane;
 	float	denom;
+	t_obj	*obj;
 
-	plane = ((t_obj *)self)->self;
+	obj = self;
+	plane = obj->self;
 	denom = dot(plane->axis, ray.dir);
 	if (fabs(denom) >= EPSILON)
 	{
@@ -41,8 +43,8 @@ char	hitplane(t_ray ray, t_hit *hit, void *self)
 			hit->normal = plane->axis;
 		else
 			hit->normal = scalar(plane->axis, -1);
-		if (((t_obj *)self)->bump)
-			bump(hit);
+		if (obj->bump && obj->texture)
+			bumperman(obj, obj->texture, hit);
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		checkerman(hit, self);
 		return (1);

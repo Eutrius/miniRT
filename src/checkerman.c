@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:11 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/06/04 21:29:19 by jyriarte         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:34:55 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	checkerboard_pl(t_hit *hit, t_plane *plane, int color)
 	t_vec	u_vec;
 	t_vec	v_vec;
 	t_vec	center;
+	t_uv	uv;
 
-	float u, v;
 	center = vecsub(hit->point, plane->center);
 	u_vec = get_orthogonal_vector(plane->axis);
 	v_vec = cross(plane->axis, u_vec);
-	u = dot(center, u_vec);
-	v = dot(center, v_vec);
-	hit->color = set_color(u, v, color);
+	uv.u = dot(center, u_vec);
+	uv.v = dot(center, v_vec);
+	hit->color = set_color(uv.u, uv.v, color);
 }
 
 void	checkerboard_sp(t_hit *hit, t_sphere *sphere, int color)

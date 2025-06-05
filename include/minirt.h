@@ -279,7 +279,7 @@ t_uv					uv_cylinder_cap(t_hit *hit, t_cylinder *cylinder,
 float					calculate_body_u(t_hit *hit, t_cylinder *cyl,
 							t_vec point_on_axis);
 float					calculate_theta(t_hit *hit, t_cone *cone, t_vec apex);
-t_vec					process_bump_normal(t_vec n, float bu, float bv);
-void					bump_normal(t_obj *obj, t_img *img, t_hit *hit);
+t_vec					process_bump_normal(t_vec normal, t_uv buv);
+void					bumperman(t_obj *obj, t_img *img, t_hit *hit);
 int						textureman(char **args, t_obj *obj, t_data *data);
 #endif

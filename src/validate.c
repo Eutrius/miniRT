@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:42:19 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/29 22:02:54 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:33:20 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	is_float(char *str)
 
 char	is_normal(t_vec vec)
 {
-	float a;
+	float	a;
 
 	a = pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2);
 	if (!(1 < 1 + 0.001 && a > 1 - 0.001))

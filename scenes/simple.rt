@@ -4,7 +4,7 @@ L 1.0,0.0,2 1 255,0,0
 L 16,0,16 1 200,200,200
 L -10,0,26 1 0,255,0
 L 0,0,13 1 0,0,255
-sp 0,0,20 5 150,0,00 ./texture/sunmap.xpm
-cy 15.0,0.0,20.6 0.0,1.0,0.0 8 15 10,0,155 ./texture/venusbump.xpm
-co -15,-5,20.6  0.0,1.0,0.0  10  10,110,155 ./texture/plutobump1k.xpm
-pl 0,-5,20 0,1,0 100,100,100 ./texture/marsbump1k.xpm
+sp 0,0,20 5 150,0,00 ./texture/earthbump1k.xpm
+cy 15.0,0.0,20.6 0.0,1.0,0.0 8 15 10,0,155 ./texture/TennisBallBump.xpm 
+co -15,-5,20.6  0.0,1.0,0.0  10  10,110,155  asdlfkja
+pl 0,-5,20 0,1,0 100,100,100 

@@ -34,13 +34,13 @@ SRC = src/main.c \
 	  src/render.c \
 	  src/mlx.c \
 	  src/lightman.c \
-	  src/bump.c \
 	  src/events.c \
 	  src/uvman.c \
 	  src/uv_utils.c \
 	  src/checkerman.c \
 	  src/checkerman_utils.c \
 	  src/bumpman.c \
+	  src/colorman.c \
 	  src/unmarsh_obj_utils.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

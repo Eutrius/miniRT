@@ -37,7 +37,6 @@ int	mouse_release_hook(int button, int x, int y, void *param)
 {
 	t_data	*data;
 
-	(void)param;
 	data = param;
 	if (data->rot_cam && button == M_MOUSE)
 	{
@@ -91,6 +90,5 @@ static int	exit_event(t_data *data)
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
-	(void)data;
 	exit(EXIT_SUCCESS);
 }

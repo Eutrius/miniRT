@@ -6,7 +6,7 @@
 /*   By: jyriarte <jyriarte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:33:31 by jyriarte          #+#    #+#             */
-/*   Updated: 2025/06/04 20:54:15 by jyriarte         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:36:18 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ t_uv	uv_sphere(t_hit *hit, t_sphere *sphere)
 {
 	t_uv	uv;
 	t_vec	center;
+	float	theta;
+	float	phi;
 
-	float theta, phi;
 	center = normalize(vecsub(hit->point, sphere->center));
 	theta = atan2(center.z, center.x);
 	phi = acos(center.y);
