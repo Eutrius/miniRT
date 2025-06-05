@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bumpman.c                                          :+:      :+:    :+:   */
+/*   bumpnan.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jyriarte <jyriarte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,8 +15,8 @@
 t_vec	process_bump_normal(t_vec normal, t_uv buv)
 {
 	t_vec	v;
-	t_vec	pu;
 	t_vec	pv;
+	t_vec	pu;
 
 	v = normal;
 	pu = cross(normal, get_orthogonal_vector(normal));

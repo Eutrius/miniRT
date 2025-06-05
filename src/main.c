@@ -15,8 +15,8 @@
 static void	init_data(t_data *data, t_scene *scene)
 {
 	mlx_get_screen_size(data->mlx, &data->w, &data->h);
-	data->w /= 16;
-	data->h /= 16;
+	data->w /= 2;
+	data->h /= 2;
 	set_camera_axis(scene);
 	set_viewport(scene, scene->data->w, scene->data->h);
 	data->obj_onhand = -1;
