@@ -21,7 +21,8 @@ static int	unmarshalsphere(char *str, t_scene *scene, int index)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3] && !args[4])
+	if (args && args[1] && args[2] && args[3] && textureman(&args[4],
+			&scene->objs[index], scene->data))
 	{
 		self = ft_calloc(sizeof(t_sphere), 1);
 		self->center = getcoords(args[1], &err);
@@ -47,7 +48,8 @@ static int	unmarshalplane(char *str, t_scene *scene, int index)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3] && !args[4])
+	if (args && args[1] && args[2] && args[3] && textureman(&args[4],
+			&scene->objs[index], scene->data))
 	{
 		self = ft_calloc(sizeof(t_plane), 1);
 		self->center = getcoords(args[1], &err);
@@ -73,7 +75,8 @@ static int	unmarshalcylinder(char *str, t_scene *scene, int index)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3] && args[4] && args[5] && !args[6])
+	if (args && args[1] && args[2] && args[3] && args[4] && args[5]
+		&& textureman(&args[6], &scene->objs[index], scene->data))
 	{
 		self = ft_calloc(sizeof(t_cylinder), 1);
 		err = get_cy(scene, args, self, index);
@@ -92,7 +95,8 @@ static int	unmarshalcone(char *str, t_scene *scene, int index)
 
 	err = 0;
 	args = ft_split(str, ' ');
-	if (args && args[1] && args[2] && args[3] && args[4] && !args[5])
+	if (args && args[1] && args[2] && args[3] && args[4] && textureman(&args[5],
+			&scene->objs[index], scene->data))
 	{
 		self = ft_calloc(sizeof(t_cone), 1);
 		err = get_cone(scene, args, self, index);

@@ -1,7 +1,7 @@
 NAME 		= miniRT
 
 CFLAGS 		= -Wall -Wextra -Werror -I./include
-CC 			= cc
+CC 			= clang
 RM 			= rm -rf
 
 SRC_DIR 	= src
@@ -22,11 +22,6 @@ SRC = src/main.c \
 	  src/hit/hitsphere.c \
 	  src/hit/hitcylinder.c \
 	  src/hit/hitcone.c \
-	  src/checkerboard/checkerboard_pl.c \
-	  src/checkerboard/checkerboard_sp.c \
-	  src/checkerboard/checkerboard_cy.c \
-	  src/checkerboard/checkerboard_co.c \
-	  src/checkerboard/utils.c \
 	  src/validate.c \
 	  src/translate.c \
 	  src/transform.c \
@@ -39,8 +34,13 @@ SRC = src/main.c \
 	  src/render.c \
 	  src/mlx.c \
 	  src/lightman.c \
-	  src/bump.c \
 	  src/events.c \
+	  src/uvman.c \
+	  src/uv_utils.c \
+	  src/checkerman.c \
+	  src/checkerman_utils.c \
+	  src/bumpman.c \
+	  src/colorman.c \
 	  src/unmarsh_obj_utils.c
 
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

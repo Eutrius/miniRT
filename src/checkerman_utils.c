@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   checkerman_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:11 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/23 18:41:13 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/04 21:28:20 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-void	checkerman(t_hit *hit, t_obj *obj)
-{
-	if (!obj->checker)
-		hit->color = obj->color;
-	else
-	{
-		if (obj->type == PLANE)
-			checkerboard_pl(hit, obj->self, obj->color);
-		else if (obj->type == SPHERE)
-			checkerboard_sp(hit, obj->self, obj->color);
-		else if (obj->type == CYLINDER)
-			checkerboard_cy(hit, obj->self, obj->color);
-		else if (obj->type == CONE)
-			checkerboard_co(hit, obj->self, obj->color);
-	}
-}
 
 t_vec	get_orthogonal_vector(t_vec axis)
 {

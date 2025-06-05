@@ -6,7 +6,7 @@
 /*   By: lmoricon <lmoricon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 18:41:19 by lmoricon          #+#    #+#             */
-/*   Updated: 2025/04/27 12:11:15 by lmoricon         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:28:04 by jyriarte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 {
 	t_cone		*cone;
 	t_quadratic	quad;
+	t_obj		*obj;
 
-	cone = ((t_obj *)self)->self;
+	obj = self;
+	cone = obj->self;
 	calculate_coeff(ray, cone, &quad);
 	if (quad.discriminant >= EPSILON)
 	{
@@ -32,8 +34,8 @@ char	hitcone(t_ray ray, t_hit *hit, void *self)
 			return (0);
 		hit->point = vecsum(ray.start, scalar(ray.dir, hit->t));
 		hit->normal = calculate_normal(hit->point, cone);
-		if (((t_obj *)self)->bump)
-			bump(hit);
+		if (obj->bump && obj->texture)
+			bumperman(obj, obj->texture, hit);
 		checkerman(hit, self);
 		return (1);
 	}

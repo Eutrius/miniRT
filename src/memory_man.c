@@ -35,6 +35,11 @@ void	free_scene(t_scene *scene)
 	{
 		if (scene->objs[i].self)
 			free(scene->objs[i].self);
+		if (scene->objs[i].texture)
+		{
+			mlx_destroy_image(scene->data->mlx, scene->objs[i].texture->img);
+			free(scene->objs[i].texture);
+		}
 		i++;
 	}
 	if (scene->objs)
