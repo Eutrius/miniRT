@@ -31,8 +31,8 @@ static void	init(int argc, char **argv, t_scene *scene, t_data *data)
 
 	ft_memset(scene, 0, sizeof(t_scene));
 	scene->data = data;
-	data->mlx = mlx_init();
 	filestr = readfile(argc, argv);
+	data->mlx = mlx_init();
 	err = unmarshal(filestr, scene);
 	free(filestr);
 	if (err)

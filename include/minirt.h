@@ -30,7 +30,7 @@
 # define R_MOUSE 3
 # define SHINYNESS 29.0f
 # define ROUGHNESS 0.5f
-# define SCREEN_FRACTION 8
+# define SCREEN_FRACTION 2
 
 typedef struct s_data	t_data;
 typedef struct s_mlximg	t_img;
